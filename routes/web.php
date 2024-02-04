@@ -21,5 +21,5 @@ use Inertia\Inertia;
 
 
 Route::get('/', function () {
-    return Inertia::render('Test');
+    return Inertia::render('Welcome');
 });
