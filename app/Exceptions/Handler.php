@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 use Inertia\Inertia;
 
@@ -29,19 +30,22 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (\Exception $e, $request) {
-           if(in_array($e->getStatusCode(), [404, 500, 403, 401])){
-               return Inertia::render('Error', ['status' => $e->getStatusCode()])
-                   ->toResponse($request)
-                   ->setStatusCode($e->getStatusCode());
-           } elseif ($e->getStatusCode() === 419) {
-               return back()->with([
-                   'message' => 'The page expired, please try again.',
-               ]);
-           }
-        });
-        
-    }
 
+            if ($e instanceof HttpException) {
+
+                if (in_array($e->getStatusCode(), [404, 500, 403, 401])) {
+                    return Inertia::render('Error', ['status' => $e->getStatusCode()])
+                        ->toResponse($request)
+                        ->setStatusCode($e->getStatusCode());
+                } elseif ($e->getStatusCode() === 419) {
+                    return back()->with([
+                        'message' => 'The page expired, please try again.',
+                    ]);
+                }
+            }
+        });
+
+    }
 
 
 }
