@@ -210,7 +210,7 @@ export default function Login({ status, canResetPassword }) {
                             )}
                         </div>
 
-                        <PrimaryButton type="submit" disabled={processing}>
+                        <PrimaryButton className="w-full" disabled={processing}>
                             Log in
                         </PrimaryButton>
                     </form>

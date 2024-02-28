@@ -250,7 +250,7 @@ export default function Register() {
                             />
                         </div>
 
-                        <PrimaryButton type="submit" disabled={processing}>
+                        <PrimaryButton className="w-full" disabled={processing}>
                             Register
                         </PrimaryButton>
                     </form>
