@@ -313,12 +313,12 @@ export default function Authenticated({ user, header, children }) {
                                 </Transition>
                             </Popover>
 
-                            <a
-                                href="#"
+                            <Link
+                                href={route("search-session")}
                                 className="text-sm font-semibold leading-6 text-gray-900"
                             >
                                 Discover Sessions
-                            </a>
+                            </Link>
 
                             <Popover className="relative">
                                 <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchSessionController;
 use App\Http\Controllers\NewSessionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -40,6 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::get('/new-session', [NewSessionController::class, 'create'])->name('new-session.create');
     Route::post('/new-session', [NewSessionController::class, 'store'])->name('new-session.store');
+
+    Route::get('/search-session', [SearchSessionController::class, 'filter'])->name('search-session');
+
 });
 
 require __DIR__.'/auth.php';
