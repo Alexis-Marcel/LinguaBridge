@@ -157,31 +157,31 @@ const products = [
     {
         name: "Planned Sessions",
         description: "Get a better understanding of your traffic",
-        href: "#",
+        href: "proposed-session",
         icon: ChartPieIcon,
     },
     {
         name: "Session Requests",
         description: "Speak directly to your customers",
-        href: "#",
+        href: "proposed-session",
         icon: CursorArrowRaysIcon,
     },
     {
         name: "Proposed Sessions",
         description: "Your customers’ data will be safe and secure",
-        href: "#",
+        href: "proposed-session",
         icon: FingerPrintIcon,
     },
     {
         name: "Session History",
         description: "Connect with third-party tools",
-        href: "#",
+        href: "proposed-session",
         icon: SquaresPlusIcon,
     },
     {
         name: "Automations",
         description: "Build strategic funnels that will convert",
-        href: "#",
+        href: "proposed-session",
         icon: ArrowPathIcon,
     },
 ];
@@ -280,13 +280,13 @@ export default function Authenticated({ user, header, children }) {
                                                         />
                                                     </div>
                                                     <div className="flex-auto">
-                                                        <a
-                                                            href={item.href}
+                                                        <Link
+                                                            href={route(item.href)}
                                                             className="block font-semibold text-gray-900"
                                                         >
                                                             {item.name}
                                                             <span className="absolute inset-0" />
-                                                        </a>
+                                                        </Link>
                                                         <p className="mt-1 text-gray-600">
                                                             {item.description}
                                                         </p>

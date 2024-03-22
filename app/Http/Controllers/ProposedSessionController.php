@@ -4,24 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Session;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Schema;
 
-class SearchSessionController extends Controller
+class ProposedSessionController extends Controller
 {
     public function filter(Request $request): Response
     {
         $query = Session::query();
 
-        $query->where('host_id', '!=', auth()->id());
+        $query->where('host_id', auth()->id());
 
-        // If the request is empty, return all sessions where the host id is not the current user's id
+        // If the request is empty, return sessions where the host id is the current user's id
         if ($request->all() === []) {
-            return Inertia::render('SearchSession', ['sessions' => $query->get()]);
+            return Inertia::render('ProposedSession', ['sessions' => $query->get()]);
         }
 
         // Get all column names of the Session table
@@ -41,6 +38,6 @@ class SearchSessionController extends Controller
 
         $results = $query->get();
 
-        return Inertia::render('SearchSession', ['sessions' => $results]);
+        return Inertia::render('ProposedSession', ['sessions' => $results]);
     }
 }

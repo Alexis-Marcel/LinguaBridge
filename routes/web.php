@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProposedSessionController;
 use App\Http\Controllers\SearchSessionController;
 use App\Http\Controllers\NewSessionController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/new-session', [NewSessionController::class, 'store'])->name('new-session.store');
 
     Route::get('/search-session', [SearchSessionController::class, 'filter'])->name('search-session');
+
+    Route::get('/proposed-session', [ProposedSessionController::class, 'filter'])->name('proposed-session');
 
 });
 

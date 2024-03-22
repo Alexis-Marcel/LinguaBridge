@@ -49,8 +49,6 @@ const formatData = [
 import FilterPanel from '@/Components/FilterPanel';
 import SimpleTable from '@/Components/SimpleTable';
 import { Head } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia'
-
 export default function SearchSession({ auth, sessions }) {
 
     return (
