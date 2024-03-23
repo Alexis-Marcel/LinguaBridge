@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Language;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,8 +20,8 @@ class SessionFactory extends Factory
     {
         return [
             'session_title' => $this->faker->sentence(),
-            'language1' => $this->faker->word(),
-            'language2' => $this->faker->word(),
+            'language1_id' => Language::inRandomOrder()->first()->code,
+            'language2_id' => Language::inRandomOrder()->first()->code,
             'description' => $this->faker->paragraph(),
             'cover_photo' => $this->faker->imageUrl(),
             'level' => $this->faker->randomElement(['Beginner', 'Intermediate', 'Advanced']),

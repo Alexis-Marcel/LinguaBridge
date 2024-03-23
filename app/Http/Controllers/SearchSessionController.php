@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,16 +16,33 @@ class SearchSessionController extends Controller
 {
     public function filter(Request $request): Response
     {
+
+        $languages = Language::all();
+
         $query = Session::query();
+
+        $query->with('host:id,name', 'language1:code,name', 'language2:code,name');
 
         $query->where('host_id', '!=', auth()->id());
 
-        // If the request is empty, return all sessions where the host id is not the current user's id
-        if ($request->all() === []) {
-            return Inertia::render('SearchSession', ['sessions' => $query->get()]);
-        }
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
 
-        // Get all column names of the Session table
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
+
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
+
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+
+        /*// Get all column names of the Session table
         $columns = Schema::getColumnListing('sessions');
 
         foreach ($request->all() as $filter => $value) {
@@ -37,10 +55,14 @@ class SearchSessionController extends Controller
                 }
                 $query->where($filter, $value);
             }
-        }
+        }*/
 
-        $results = $query->get();
 
-        return Inertia::render('SearchSession', ['sessions' => $results]);
+
+        $sessions = $query->paginate(10);
+
+
+        return Inertia::render('SearchSession', ['sessions' => $sessions, 'languages' => $languages]);
+
     }
 }

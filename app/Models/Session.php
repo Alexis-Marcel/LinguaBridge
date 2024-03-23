@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Session extends Model
 {
@@ -12,8 +13,8 @@ class Session extends Model
     protected $fillable = [
         'session_title',
         'description',
-        'language1',
-        'language2',
+        'language1_id',
+        'language2_id',
         'cover_photo',
         'level',
         'date',
@@ -24,8 +25,18 @@ class Session extends Model
         'materials',
     ];
 
-    public function host()
+    public function host() : BelongsTo
     {
         return $this->belongsTo(User::class, 'host_id');
+    }
+
+    public function language1() : BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'language1_id', 'code');
+    }
+
+    public function language2() : BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'language2_id', 'code');
     }
 }

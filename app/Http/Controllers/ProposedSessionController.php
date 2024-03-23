@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -12,32 +13,35 @@ class ProposedSessionController extends Controller
 {
     public function filter(Request $request): Response
     {
+
+        $languages = Language::all();
+
         $query = Session::query();
 
-        $query->where('host_id', auth()->id());
+        $query->with('host:id,name', 'language1:code,name', 'language2:code,name');
 
-        // If the request is empty, return sessions where the host id is the current user's id
-        if ($request->all() === []) {
-            return Inertia::render('ProposedSession', ['sessions' => $query->get()]);
-        }
+        $query->where('host_id', '=', auth()->id());
 
-        // Get all column names of the Session table
-        $columns = Schema::getColumnListing('sessions');
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
 
-        foreach ($request->all() as $filter => $value) {
-            // Check if the filter exists in the Session table and the value is not empty
-            if (in_array($filter, $columns) && !empty($value)) {
-                // Faire un cas pour la recherche du titre de la session où on utilise le like pour chercher les sessions qui contiennent le mot clé
-                if ($filter === 'session_title') {
-                    $query->where($filter, 'like', '%' . $value . '%');
-                    continue;
-                }
-                $query->where($filter, $value);
-            }
-        }
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
 
-        $results = $query->get();
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
 
-        return Inertia::render('ProposedSession', ['sessions' => $results]);
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+
+        $sessions = $query->paginate(10);
+
+        return Inertia::render('ProposedSession', ['sessions' => $sessions, 'languages' => $languages]);
+
     }
 }

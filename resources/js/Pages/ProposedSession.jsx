@@ -1,64 +1,29 @@
-import FilterPanel from '@/Components/FilterPanel';
+import FilterPanel from '@/Components/FilterPanel2';
 import SimpleTable from '@/Components/SimpleTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import TableWithPaginate from "@/Components/TableWithPaginate.jsx";
 
-const sortOptions = [
-    { name: 'Most Popular', href: '#' },
-    { name: 'Best Rating', href: '#' },
-    { name: 'Newest', href: '#' },
-]
 
-const filters = [
-    {
-        id: 'language1',
-        name: 'Languages 1',
-        options: [
-            { value: 'english', label: 'English'},
-            { value: 'french', label: 'French'},
-            { value: 'german', label: 'German'},
-            { value: 'spanish', label: 'Spanish'},
-        ],
-    },
-    {
-        id: 'language2',
-        name: 'Languages 2',
-        options: [
-            { value: 'english', label: 'English'},
-            { value: 'french', label: 'French'},
-            { value: 'german', label: 'German'},
-            { value: 'spanish', label: 'Spanish'},
-        ],
-    },
-    {
-        id: 'level',
-        name: 'Level',
-        options: [
-            { value: 'beginner', label: 'Beginner'},
-            { value: 'intermediate', label: 'Intermediate'},
-            { value: 'advanced', label: 'Advanced'},
-        ],
-    },
-]
+export default function ProposedSession({ auth, sessions, languages }) {
 
-const formatData = [
-    { name: 'Session Title', data: 'session_title' },
-    { name: 'Level', data: 'level' },
-    { name: 'Date', data: 'date' },
-    { name: 'Primary Language', data: 'language1' },
-    { name: 'Secondary Language', data: 'language2' },
-]
-export default function SearchSession({ auth, sessions }) {
+    const formatData = [
+        { name: 'Session Title', keys: ['session_title'] },
+        { name: 'Level', keys: ['level'] },
+        { name: 'Date', keys: ['date'] },
+        { name: 'Language 1', keys: ['language1', 'name'] },
+        { name: 'Language 2', keys: ['language2', 'name'] },
+    ]
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header="Proposed Sessions"
+            header="Proposed Session"
         >
-        <Head title="Search Session" />
+            <Head title="Proposed Session"/>
 
-            <FilterPanel title="Your proposed session" description="Find the perfect fit for you." filters={filters} sortOptions={sortOptions} routename="proposed-session" />
-            <SimpleTable formatData={formatData} data={sessions} />
+            <FilterPanel languages={languages} routename={'proposed-session'}/>
+            <TableWithPaginate sessions={sessions} formatData={formatData}/>
         </AuthenticatedLayout>
     );
 }

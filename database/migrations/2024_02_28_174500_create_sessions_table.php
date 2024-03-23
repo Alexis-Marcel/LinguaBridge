@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('session_title');
-            $table->string('language1');
-            $table->string('language2');
+            $table->string('language1_id')->constrained('languages');
+            $table->string('language2_id')->constrained('languages');
             $table->text('description')->nullable();
             $table->string('cover_photo');
             $table->string('level');
