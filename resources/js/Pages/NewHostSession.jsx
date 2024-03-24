@@ -5,7 +5,7 @@ import {useForm} from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ComboBox from "@/Components/ComboBox.jsx";
-import {durationToMinutes, minutesToDuration} from "@/Utils/timeUtils.js";
+import {durationToMinutes, minutesToDuration, minutesToTimeInput, timeInputToMinutes} from "@/Utils/dateUtils.js";
 
 export default function NewHostSession({auth, languages}) {
     const {data, setData, post, processing, errors, reset} = useForm({
@@ -277,11 +277,11 @@ export default function NewHostSession({auth, languages}) {
                                                 step="600"
                                                 min="00:00"
                                                 max="24:00"
-                                                value={minutesToDuration(data.duration)}
+                                                value={timeInputToMinutes(data.duration)}
                                                 onChange={(e) =>
                                                     setData(
                                                         "duration",
-                                                        durationToMinutes(e.target.value)
+                                                        minutesToTimeInput(e.target.value)
                                                     )
 
                                                 }

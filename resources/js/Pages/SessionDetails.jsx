@@ -1,7 +1,7 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid'
 import {Head} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {durationToMinutes, minutesToDuration} from "@/Utils/timeUtils.js";
+import {formatDate, formatDuration} from "@/Utils/dateUtils.js";
 
 export default function SessionDetails({auth, session}) {
     console.log(session)
@@ -29,13 +29,13 @@ export default function SessionDetails({auth, session}) {
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">
                             <div className=" items-center gap-2">
                                 <div className="text-sm font-medium text-gray-900">Date & Time</div>
-                                <div className="text-sm text-gray-700">{session.date}</div>
+                                <div className="text-sm text-gray-700">{formatDate(session.date)}</div>
                             </div>
                         </dd>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0">
                             <div className=" items-center gap-2">
                                 <div className="text-sm font-medium text-gray-900">Duration</div>
-                                <div className="text-sm text-gray-700">{minutesToDuration(session.duration)}</div>
+                                <div className="text-sm text-gray-700">{formatDuration(session.duration)}</div>
                             </div>
                         </dd>
                     </div>
