@@ -1,28 +1,28 @@
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import {PhotoIcon} from "@heroicons/react/24/solid";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TextInput from "../Components/TextInput";
-import { useForm } from "@inertiajs/react";
+import {useForm} from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
+import ComboBox from "@/Components/ComboBox.jsx";
 
-export default function NewHostSession({ auth }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+export default function NewHostSession({auth, languages}) {
+    const {data, setData, post, processing, errors, reset} = useForm({
         session_title: "",
-        language1: "",
-        language2: "",
+        language1: null,
+        language2: null,
         description: "",
         cover_photo: undefined,
         level: "Beginner",
         date_time: "",
-        duration: "00:00",
+        duration: 10,
         maximum_participants: 2,
         preparation: "",
         materials: undefined,
     });
-
+    
     const submit = (e) => {
         e.preventDefault();
-        data.duration = durationToMinutes(data.duration);
         post(route("sessions.store"));
     };
 
@@ -30,6 +30,28 @@ export default function NewHostSession({ auth }) {
         const [hours, minutes] = duration.split(":");
         return parseInt(hours) * 60 + parseInt(minutes);
     }
+
+    function minutesToDuration(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours.toString().padStart(2, "0")}:${remainingMinutes.toString().padStart(2, "0")}`;
+    }
+
+    function codeToLanguage(code) {
+        const language = languages.find((language) => language.code === code);
+        if (language === undefined) {
+            return null;
+        }
+        return language;
+    }
+
+    function languageToCode(language) {
+        if (language === null) {
+            return null;
+        }
+        return language.code;
+    }
+
 
     return (
         <AuthenticatedLayout user={auth.user} header="New Host Session">
@@ -79,59 +101,13 @@ export default function NewHostSession({ auth }) {
                                         </div>
                                     </div>
 
-                                    <div className="sm:col-span-3">
-                                        <label
-                                            htmlFor="language1"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            Language 1
-                                        </label>
-                                        <div className="mt-2">
-                                            <TextInput
-                                                name="language1"
-                                                id="language1"
-                                                autoComplete="language1"
-                                                value={data.language1}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "language1",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={errors.language1}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                    </div>
+                                    <ComboBox label={"Language 1"} selected={codeToLanguage(data.language1)}
+                                              setSelected={(value) => setData("language1", languageToCode(value))}
+                                              options={languages} className="sm:col-span-3" errors={errors.language1}/>
 
-                                    <div className="sm:col-span-3">
-                                        <label
-                                            htmlFor="language2"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            Language 2
-                                        </label>
-                                        <div className="mt-2">
-                                            <TextInput
-                                                name="language2"
-                                                id="language2"
-                                                autoComplete="language2"
-                                                value={data.language2}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "language2",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={errors.language2}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                    </div>
+                                    <ComboBox label={"Language 2"} selected={codeToLanguage(data.language2)}
+                                              setSelected={(value) => setData("language2", languageToCode(value))}
+                                              options={languages} className="sm:col-span-3" errors={errors.language2}/>
 
                                     <div className="col-span-full">
                                         <label
@@ -203,7 +179,8 @@ export default function NewHostSession({ auth }) {
                                         >
                                             Cover photo
                                         </label>
-                                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div
+                                            className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                             <div className="text-center">
                                                 <div className="w-24 h-24 mx-auto">
                                                     {!data.cover_photo ? (
@@ -234,10 +211,6 @@ export default function NewHostSession({ auth }) {
                                                             name="cover-photo"
                                                             type="file"
                                                             onChange={(e) => {
-                                                                console.log(
-                                                                    e.target
-                                                                        .files[0]
-                                                                );
                                                                 setData(
                                                                     "cover_photo",
                                                                     e.target
@@ -256,6 +229,7 @@ export default function NewHostSession({ auth }) {
                                                 </p>
                                             </div>
                                         </div>
+                                        <InputError message={errors.cover_photo} className="mt-2"/>
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +256,7 @@ export default function NewHostSession({ auth }) {
                                             htmlFor="date-time"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Date & Time
+                                            Date
                                         </label>
                                         <div className="mt-2">
                                             <TextInput
@@ -298,6 +272,10 @@ export default function NewHostSession({ auth }) {
                                                     )
                                                 }
                                             />
+                                            <InputError
+                                                message={errors.date_time}
+                                                className="mt-2"
+                                            />
                                         </div>
                                     </div>
 
@@ -306,7 +284,7 @@ export default function NewHostSession({ auth }) {
                                             htmlFor="duration"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Duration
+                                            Duration (hh:mm)
                                         </label>
                                         <div className="mt-2">
                                             <TextInput
@@ -316,14 +294,19 @@ export default function NewHostSession({ auth }) {
                                                 step="600"
                                                 min="00:00"
                                                 max="24:00"
-                                                value={data.duration}
+                                                value={minutesToDuration(data.duration)}
                                                 onChange={(e) =>
                                                     setData(
                                                         "duration",
-                                                        e.target.value
+                                                        durationToMinutes(e.target.value)
                                                     )
+
                                                 }
                                                 autoComplete="duration"
+                                            />
+                                            <InputError
+                                                message={errors.duration}
+                                                className="mt-2"
                                             />
                                         </div>
                                     </div>
@@ -411,7 +394,8 @@ export default function NewHostSession({ auth }) {
                                         >
                                             Materials
                                         </label>
-                                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div
+                                            className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                             <div className="text-center">
                                                 <PhotoIcon
                                                     className="mx-auto h-12 w-12 text-gray-300"

@@ -3,9 +3,10 @@ import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid/index.js";
 import {useState} from "react";
 import {classNames} from "@/Utils/classNames.js";
 import {XMarkIcon} from "@heroicons/react/24/outline";
+import InputError from "@/Components/InputError.jsx";
 
 
-export default function ComboBox({label, options, selected, setSelected}) {
+export default function ComboBox({label, options, selected, setSelected, className, errors}) {
 
     const [query, setQuery] = useState('')
 
@@ -17,6 +18,7 @@ export default function ComboBox({label, options, selected, setSelected}) {
             })
 
     return (
+        <div className={className}>
         <Combobox as="div" value={selected} onChange={setSelected}>
             <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">{label}</Combobox.Label>
             <div className="relative mt-2">
@@ -49,7 +51,6 @@ export default function ComboBox({label, options, selected, setSelected}) {
                 </span>
                     </button>
                 )}
-
 
                 {filtered.length > 0 && (
                     <Combobox.Options
@@ -88,5 +89,12 @@ export default function ComboBox({label, options, selected, setSelected}) {
                 )}
             </div>
         </Combobox>
+            <div className="mt-2 ml-1">
+            <InputError
+                message={errors}
+                className="mt-2"
+            />
+            </div>
+        </div>
     );
 }

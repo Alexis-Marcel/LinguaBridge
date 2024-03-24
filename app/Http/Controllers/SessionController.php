@@ -70,7 +70,8 @@ class SessionController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('NewHostSession');
+        $languages = Language::all();
+        return Inertia::render('NewHostSession', ['languages' => $languages]);
     }
 
     /**
@@ -78,14 +79,10 @@ class SessionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        $request->session()->flash('success', 'Video has been successfully uploaded.');
-
-
         $request->validate([
             'session_title' => 'required|string|max:100',
-            'language1' => 'required|string|max:50',
-            'language2' => 'required|string|max:50',
+            'language1' => 'required|string|max:2',
+            'language2' => 'required|string|max:2',
             'description' => 'nullable|string|max:255',
             'level' => 'required|string|in:Beginner,Intermediate,Advanced',
             'date_time' => 'required|date',
@@ -101,10 +98,18 @@ class SessionController extends Controller
 
         $user = $request->user();
 
+        // test if language1 and language2 exist in the database
+        $language1 = Language::where('code', $request->language1)->first();
+        $language2 = Language::where('code', $request->language2)->first();
+
+        if (!$language1 || !$language2) {
+            return redirect()->back()->with('error', 'One or both of the languages do not exist in the database');
+        }
+
         $session = Session::create([
             'session_title' => $request->session_title,
-            'language1' => $request->language1,
-            'language2' => $request->language2,
+            'language1_id' => $request->language1,
+            'language2_id' => $request->language2,
             'description' => $request->description,
             'cover_photo' => $cover_photo,
             'level' => $request->level,
@@ -150,27 +155,17 @@ class SessionController extends Controller
         });
 
 
-        /*// Get all column names of the Session table
-        $columns = Schema::getColumnListing('sessions');
-
-        foreach ($request->all() as $filter => $value) {
-            // Check if the filter exists in the Session table and the value is not empty
-            if (in_array($filter, $columns) && !empty($value)) {
-                // Faire un cas pour la recherche du titre de la session où on utilise le like pour chercher les sessions qui contiennent le mot clé
-                if ($filter === 'session_title') {
-                    $query->where($filter, 'like', '%' . $value . '%');
-                    continue;
-                }
-                $query->where($filter, $value);
-            }
-        }*/
-
-
-
         $sessions = $query->paginate(10);
 
 
         return Inertia::render('ProposedSession', ['sessions' => $sessions, 'languages' => $languages]);
 
+    }
+
+    public function show(Session $session): Response
+    {
+        $session->load('host:id,name', 'language1:code,name', 'language2:code,name');
+
+        return Inertia::render('Session', ['session' => $session]);
     }
 }
