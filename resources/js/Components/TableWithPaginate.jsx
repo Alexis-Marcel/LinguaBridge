@@ -2,7 +2,7 @@ import {Link} from "@inertiajs/react";
 import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/react/20/solid/index.js";
 import {classNames} from "@/Utils/classNames.js";
 
-export default function TableWithPaginate({sessions, formatData, data}) {
+export default function TableWithPaginate({sessions, formatData, onRowClick}) {
     return <>
         <section className="px-4 sm:px-6 lg:px-8 mb-8">
             <div className="mt-8 flow-root">
@@ -42,7 +42,7 @@ export default function TableWithPaginate({sessions, formatData, data}) {
                                     </tr>
                                 ))}*/}
                                 {sessions.data.map((session) => (
-                                    <tr key={session.id} className="hover:bg-gray-50" onClick={() => { console.log('clicked') }}>
+                                    <tr key={session.id} className="hover:bg-gray-50" onClick={() => onRowClick(session)}>
                                         {formatData.map((value, index) => (
                                             <td key={index}
                                                 className={classNames('whitespace-nowrap', index === 0 ? 'py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0' : 'px-3 py-4 text-gray-500')}>

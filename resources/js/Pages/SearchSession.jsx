@@ -26,7 +26,7 @@ export default function SearchSession({auth, sessions, languages}) {
             <Head title="Search Session"/>
 
             <FilterPanel languages={languages} routename={'sessions.index'}/>
-            <TableWithPaginate sessions={sessions } formatData={formatData}/>
+            <TableWithPaginate sessions={sessions } formatData={formatData} onRowClick={(session) => router.get(route('sessions.show', session.id))}/>
         </AuthenticatedLayout>
 
     )

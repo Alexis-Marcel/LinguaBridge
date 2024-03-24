@@ -166,6 +166,6 @@ class SessionController extends Controller
     {
         $session->load('host:id,name', 'language1:code,name', 'language2:code,name');
 
-        return Inertia::render('Session', ['session' => $session]);
+        return Inertia::render('SessionDetails', ['session' => $session]);
     }
 }

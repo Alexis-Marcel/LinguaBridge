@@ -5,6 +5,7 @@ import {useForm} from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ComboBox from "@/Components/ComboBox.jsx";
+import {durationToMinutes, minutesToDuration} from "@/Utils/timeUtils.js";
 
 export default function NewHostSession({auth, languages}) {
     const {data, setData, post, processing, errors, reset} = useForm({
@@ -20,22 +21,11 @@ export default function NewHostSession({auth, languages}) {
         preparation: "",
         materials: undefined,
     });
-    
+
     const submit = (e) => {
         e.preventDefault();
         post(route("sessions.store"));
     };
-
-    function durationToMinutes(duration) {
-        const [hours, minutes] = duration.split(":");
-        return parseInt(hours) * 60 + parseInt(minutes);
-    }
-
-    function minutesToDuration(minutes) {
-        const hours = Math.floor(minutes / 60);
-        const remainingMinutes = minutes % 60;
-        return `${hours.toString().padStart(2, "0")}:${remainingMinutes.toString().padStart(2, "0")}`;
-    }
 
     function codeToLanguage(code) {
         const language = languages.find((language) => language.code === code);
@@ -43,13 +33,6 @@ export default function NewHostSession({auth, languages}) {
             return null;
         }
         return language;
-    }
-
-    function languageToCode(language) {
-        if (language === null) {
-            return null;
-        }
-        return language.code;
     }
 
 
@@ -102,11 +85,11 @@ export default function NewHostSession({auth, languages}) {
                                     </div>
 
                                     <ComboBox label={"Language 1"} selected={codeToLanguage(data.language1)}
-                                              setSelected={(value) => setData("language1", languageToCode(value))}
+                                              setSelected={(value) => setData("language1", value?.code)}
                                               options={languages} className="sm:col-span-3" errors={errors.language1}/>
 
                                     <ComboBox label={"Language 2"} selected={codeToLanguage(data.language2)}
-                                              setSelected={(value) => setData("language2", languageToCode(value))}
+                                              setSelected={(value) => setData("language2", value?.code)}
                                               options={languages} className="sm:col-span-3" errors={errors.language2}/>
 
                                     <div className="col-span-full">
@@ -256,7 +239,7 @@ export default function NewHostSession({auth, languages}) {
                                             htmlFor="date-time"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Date
+                                            Date & Time
                                         </label>
                                         <div className="mt-2">
                                             <TextInput
