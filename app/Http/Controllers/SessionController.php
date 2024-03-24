@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Schema;
 
 class SessionController extends Controller
 {
@@ -165,6 +164,8 @@ class SessionController extends Controller
     public function show(Session $session): Response
     {
         $session->load('host:id,name', 'language1:code,name', 'language2:code,name');
+
+        $session->cover_photo = Storage::url($session->cover_photo);
 
         return Inertia::render('SessionDetails', ['session' => $session]);
     }

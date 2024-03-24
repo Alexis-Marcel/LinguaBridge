@@ -10,6 +10,9 @@ class Session extends Model
 {
     use HasFactory;
 
+    /**
+     * @var mixed|string
+     */
     protected $fillable = [
         'session_title',
         'description',

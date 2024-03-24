@@ -8,9 +8,16 @@ export default function SessionDetails({auth, session}) {
     return (
         <AuthenticatedLayout user={auth.user} header="Session Details">
             <Head title="Session Details"/>
-            <div className="px-4 py-6 sm:px-6">
-                <h3 className="text-base font-semibold leading-7 text-gray-900">Session Information</h3>
-                <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Proposed by {session.host.name}</p>
+            <div className="flex mb-8">
+                <div className="px-4 py-6 sm:px-6">
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">Session Information</h3>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Proposed by {session.host.name}</p>
+                </div>
+                {/* cover image */}
+                <div className="flex-shrink-0 w-1/2 mx-auto">
+                    <img className="aspect-[3/2] rounded-2xl object-cover" src={session.cover_photo} alt=""/>
+                </div>
+
             </div>
             <div className="border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
