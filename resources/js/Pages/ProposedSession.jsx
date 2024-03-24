@@ -22,7 +22,7 @@ export default function ProposedSession({ auth, sessions, languages }) {
         >
             <Head title="Proposed Session"/>
 
-            <FilterPanel languages={languages} routename={'proposed-session'}/>
+            <FilterPanel languages={languages} routename={'sessions.my-sessions'}/>
             <TableWithPaginate sessions={sessions} formatData={formatData}/>
         </AuthenticatedLayout>
     );

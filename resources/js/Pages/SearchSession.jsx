@@ -25,7 +25,7 @@ export default function SearchSession({auth, sessions, languages}) {
         >
             <Head title="Search Session"/>
 
-            <FilterPanel languages={languages} routename={'search-session'}/>
+            <FilterPanel languages={languages} routename={'sessions.index'}/>
             <TableWithPaginate sessions={sessions } formatData={formatData}/>
         </AuthenticatedLayout>
 

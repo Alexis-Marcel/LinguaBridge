@@ -143,22 +143,7 @@ export default function FilterPanel({languages, routename}) {
 
         {/* filter panel */}
         <div className="flex items-center justify-end">
-            <div className="mr-4">
-                <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
-                    Session Title
-                </label>
-                <div className="mt-2">
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Enter a title"
-                        value={searchTerm}
-                        onChange={(event) => setSearchTerm(event.target.value)}
-                    />
-                </div>
-            </div>
+
 
             {/*<Menu as="div" className="relative inline-block text-left">
             <div>
@@ -214,6 +199,23 @@ export default function FilterPanel({languages, routename}) {
             </button>
 
             <div className="hidden sm:flex sm:items-baseline sm:space-x-4 mr-4">
+
+                <div className="mr-4">
+                    <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                        Session Title
+                    </label>
+                    <div className="mt-2">
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="Enter a title"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                        />
+                    </div>
+                </div>
 
                 <Combobox as="div" selected={selectedLanguage1} setSelected={setSelectedLanguage1} label="Language 1"
                           options={languages}/>

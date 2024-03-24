@@ -23,7 +23,7 @@ export default function NewHostSession({ auth }) {
     const submit = (e) => {
         e.preventDefault();
         data.duration = durationToMinutes(data.duration);
-        post(route("new-session.store"));
+        post(route("sessions.store"));
     };
 
     function durationToMinutes(duration) {

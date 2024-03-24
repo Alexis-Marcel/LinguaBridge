@@ -157,31 +157,31 @@ const products = [
     {
         name: "Planned Sessions",
         description: "Get a better understanding of your traffic",
-        href: "proposed-session",
+        href: "sessions.index",
         icon: ChartPieIcon,
     },
     {
         name: "Session Requests",
         description: "Speak directly to your customers",
-        href: "proposed-session",
+        href: "sessions.index",
         icon: CursorArrowRaysIcon,
     },
     {
         name: "Proposed Sessions",
         description: "Your customers’ data will be safe and secure",
-        href: "proposed-session",
+        href: "sessions.my-sessions",
         icon: FingerPrintIcon,
     },
     {
         name: "Session History",
         description: "Connect with third-party tools",
-        href: "proposed-session",
+        href: "sessions.index",
         icon: SquaresPlusIcon,
     },
     {
         name: "Automations",
         description: "Build strategic funnels that will convert",
-        href: "proposed-session",
+        href: "sessions.index",
         icon: ArrowPathIcon,
     },
 ];
@@ -314,7 +314,7 @@ export default function Authenticated({ user, header, children }) {
                             </Popover>
 
                             <Link
-                                href={route("search-session")}
+                                href={route("sessions.index")}
                                 className="text-sm font-semibold leading-6 text-gray-900"
                             >
                                 Discover Sessions
@@ -357,7 +357,7 @@ export default function Authenticated({ user, header, children }) {
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
                             <div className="flex-shrink-0">
                                 <Link
-                                    href={route("new-session.create")}
+                                    href={route("sessions.create")}
                                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                                 >
                                     <PlusIcon
