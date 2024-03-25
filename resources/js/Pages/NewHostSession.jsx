@@ -5,7 +5,7 @@ import {useForm} from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ComboBox from "@/Components/ComboBox.jsx";
-import {durationToMinutes, minutesToDuration, minutesToTimeInput, timeInputToMinutes} from "@/Utils/dateUtils.js";
+import {minutesToTimeInput, timeInputToMinutes} from "@/Utils/dateUtils.js";
 
 export default function NewHostSession({auth, languages}) {
     const {data, setData, post, processing, errors, reset} = useForm({
