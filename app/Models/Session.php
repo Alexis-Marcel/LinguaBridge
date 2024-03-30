@@ -25,7 +25,7 @@ class Session extends Model
         'max_attendees',
         'host_id',
         'preparation',
-        'materials',
+        'material_id',
     ];
 
     public function host() : BelongsTo
@@ -41,5 +41,10 @@ class Session extends Model
     public function language2() : BelongsTo
     {
         return $this->belongsTo(Language::class, 'language2_id', 'code');
+    }
+
+    public function material() : BelongsTo
+    {
+        return $this->belongsTo(Material::class, 'material_id');
     }
 }

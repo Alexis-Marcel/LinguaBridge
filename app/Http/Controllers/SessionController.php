@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Language;
+use App\Models\Material;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SessionController extends Controller
 {
@@ -57,11 +60,13 @@ class SessionController extends Controller
                 $query->where($filter, $value);
             }
         }*/
-
-
-
         $sessions = $query->paginate(10);
 
+        foreach ($sessions as $session) {
+            if(Storage::exists($session->cover_photo)) {
+                $session->cover_photo = Storage::url($session->cover_photo);
+            }
+        }
 
         return Inertia::render('SearchSession', ['sessions' => $sessions, 'languages' => $languages]);
 
@@ -78,6 +83,8 @@ class SessionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        DB::beginTransaction();
+
         $request->validate([
             'session_title' => 'required|string|max:100',
             'language1' => 'required|string|max:2',
@@ -92,8 +99,16 @@ class SessionController extends Controller
             'materials' => 'nullable|file|mimes:pdf,doc,docx,txt|max:2048',
         ]);
 
-        $cover_photo = Storage::putFile('public', $request->file('cover_photo'));
-        $materials = $request->file('materials') ? Storage::putFile('public', $request->file('materials')) : null;
+        $cover_photo = Storage::putFile('public/sessions/covers', $request->file('cover_photo'));
+
+        $materials = $request->file('materials');
+        if ($materials) {
+            $material_id = Material::create([
+                'name' => $materials->getClientOriginalName(),
+                'size' => $materials->getSize(),
+                'path' => Storage::putFile('public/sessions/materials', $materials),
+            ])->id;
+        }
 
         $user = $request->user();
 
@@ -117,8 +132,10 @@ class SessionController extends Controller
             'max_attendees' => $request->maximum_participants,
             'host_id' => $user->id,
             'preparation' => $request->preparation,
-            'materials' => $materials,
+            'material_id' => $material_id ?? null,
         ]);
+
+        DB::commit();
 
         return redirect()->route('dashboard');
 
@@ -163,10 +180,29 @@ class SessionController extends Controller
 
     public function show(Session $session): Response
     {
-        $session->load('host:id,name', 'language1:code,name', 'language2:code,name');
+        $session->load('host:id,name', 'language1:code,name', 'language2:code,name', 'material:id,name,size,path');
 
-        $session->cover_photo = Storage::url($session->cover_photo);
+        if(Storage::exists($session->cover_photo)) {
+            $session->cover_photo = Storage::url($session->cover_photo);
+        }
+
+        if($session->material && Storage::exists($session->material->path)) {
+            $session->material->path = Storage::url($session->material->path);
+        }
 
         return Inertia::render('SessionDetails', ['session' => $session]);
+    }
+
+    public function downloadMaterial(Session $session, Material $material): RedirectResponse | BinaryFileResponse
+    {
+        if ($session->material_id !== $material->id) {
+            return redirect()->back()->with('error', 'The material does not belong to the session');
+        }
+
+        if (!Storage::exists($material->path)) {
+            return redirect()->back()->with('error', 'The material does not exist in the storage');
+        }
+
+        return response()->download(Storage::path($material->path), $material->name);
     }
 }

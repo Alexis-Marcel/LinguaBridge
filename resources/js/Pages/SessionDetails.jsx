@@ -1,5 +1,5 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid'
-import {Head} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {formatDate, formatDuration} from "@/Utils/dateUtils.js";
 
@@ -14,7 +14,7 @@ export default function SessionDetails({auth, session}) {
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Proposed by {session.host.name}</p>
                 </div>
                 {/* cover image */}
-                <div className="flex-shrink-0 w-1/2 mx-auto">
+                <div className="flex-shrink-0 w-1/3 mx-auto">
                     <img className="aspect-[3/2] rounded-2xl object-cover" src={session.cover_photo} alt=""/>
                 </div>
 
@@ -83,36 +83,28 @@ export default function SessionDetails({auth, session}) {
                                                        aria-hidden="true"/>
                                         <div className="ml-4 flex min-w-0 flex-1 gap-2">
                                                 <span
-                                                    className="truncate font-medium">resume_back_end_developer.pdf</span>
-                                            <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+                                                    className="truncate font-medium">{session.material.name}</span>
+                                            <span className="flex-shrink-0 text-gray-400">{session.material.size}</span>
                                         </div>
                                     </div>
                                     <div className="ml-4 flex-shrink-0">
-                                        <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                        <Link href={route('sessions.download-material',  [session.id, session.material.id])} className="font-medium text-indigo-600 hover:text-indigo-500">
                                             Download
-                                        </a>
-                                    </div>
-                                </li>
-                                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                    <div className="flex w-0 flex-1 items-center">
-                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400"
-                                                       aria-hidden="true"/>
-                                        <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                <span
-                                                    className="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                                            <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                                        </div>
-                                    </div>
-                                    <div className="ml-4 flex-shrink-0">
-                                        <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                            Download
-                                        </a>
+                                        </Link>
                                     </div>
                                 </li>
                             </ul>
                         </dd>
                     </div>
                 </dl>
+            </div>
+            <div className="flex justify-end border-t border-gray-100 pt-5">
+                <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Edit
+                </button>
             </div>
         </AuthenticatedLayout>
     )

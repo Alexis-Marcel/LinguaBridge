@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/edit', [SessionController::class, 'edit'])->name('sessions.edit');
             Route::patch('/', [SessionController::class, 'update'])->name('sessions.update');
             Route::delete('/', [SessionController::class, 'destroy'])->name('sessions.destroy');
+            Route::get('/material/download/{material}', [SessionController::class, 'downloadMaterial'])->name('sessions.download-material');
         });
 
     });

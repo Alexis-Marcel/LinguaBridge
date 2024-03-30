@@ -1,4 +1,4 @@
-import {PhotoIcon} from "@heroicons/react/24/solid";
+import {PhotoIcon, DocumentIcon} from "@heroicons/react/24/solid";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TextInput from "../Components/TextInput";
 import {useForm} from "@inertiajs/react";
@@ -26,6 +26,8 @@ export default function NewHostSession({auth, languages}) {
         e.preventDefault();
         post(route("sessions.store"));
     };
+
+    console.log(errors);
 
     function codeToLanguage(code) {
         const language = languages.find((language) => language.code === code);
@@ -121,6 +123,7 @@ export default function NewHostSession({auth, languages}) {
                                         <p className="mt-3 text-sm leading-6 text-gray-600">
                                             Briefly describe the session.
                                         </p>
+                                        <InputError message={errors.description} className="mt-2"/>
                                     </div>
 
                                     <div className="sm:col-span-4">
@@ -165,7 +168,7 @@ export default function NewHostSession({auth, languages}) {
                                         <div
                                             className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                             <div className="text-center">
-                                                <div className="w-24 h-24 mx-auto">
+                                                <div className="mx-auto">
                                                     {!data.cover_photo ? (
                                                         <PhotoIcon
                                                             className="mx-auto h-12 w-12 text-gray-300"
@@ -277,11 +280,11 @@ export default function NewHostSession({auth, languages}) {
                                                 step="600"
                                                 min="00:00"
                                                 max="24:00"
-                                                value={timeInputToMinutes(data.duration)}
+                                                value={minutesToTimeInput(data.duration)}
                                                 onChange={(e) =>
                                                     setData(
                                                         "duration",
-                                                        minutesToTimeInput(e.target.value)
+                                                        timeInputToMinutes(e.target.value)
                                                     )
 
                                                 }
@@ -368,6 +371,7 @@ export default function NewHostSession({auth, languages}) {
                                             Briefly describe what participants
                                             should prepare.
                                         </p>
+                                        <InputError message={errors.preparation} className="mt-2"/>
                                     </div>
 
                                     <div className="col-span-full">
@@ -380,10 +384,22 @@ export default function NewHostSession({auth, languages}) {
                                         <div
                                             className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                             <div className="text-center">
-                                                <PhotoIcon
-                                                    className="mx-auto h-12 w-12 text-gray-300"
-                                                    aria-hidden="true"
-                                                />
+                                                <div className="mx-auto">
+                                                    {!data.materials ? (
+                                                        <DocumentIcon
+                                                            className="mx-auto h-12 w-12 text-gray-300"
+                                                            aria-hidden="true"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex items-center gap-2">
+                                                            <DocumentIcon className="h-12 w-12 text-gray-300"/>
+                                                            <span className="truncate font-medium">
+                                                                {data.materials.name}
+                                                            </span>
+                                                        </div>
+
+                                                    )}
+                                                </div>
                                                 <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                                     <label
                                                         htmlFor="materials"
@@ -397,15 +413,13 @@ export default function NewHostSession({auth, languages}) {
                                                             name="materials"
                                                             type="file"
                                                             className="sr-only"
-                                                            value={
-                                                                data.materials
-                                                            }
                                                             onChange={(e) =>
                                                                 setData(
                                                                     "materials",
                                                                     e.target
-                                                                        .value
+                                                                        .files[0]
                                                                 )
+
                                                             }
                                                         />
                                                     </label>
@@ -418,6 +432,7 @@ export default function NewHostSession({auth, languages}) {
                                                 </p>
                                             </div>
                                         </div>
+                                        <InputError message={errors.materials} className="mt-2"/>
                                     </div>
                                 </div>
                             </div>

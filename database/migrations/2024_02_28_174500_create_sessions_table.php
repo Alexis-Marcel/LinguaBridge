@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('session_title');
-            $table->string('language1_id')->constrained('languages');
-            $table->string('language2_id')->constrained('languages');
+            $table->string('language1_id', 2);
+            $table->string('language2_id', 2);
+            $table->foreign('language1_id')->references('code')->on('languages');
+            $table->foreign('language2_id')->references('code')->on('languages');
             $table->text('description')->nullable();
             $table->string('cover_photo');
             $table->string('level');
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->integer('max_attendees');
             $table->foreignId('host_id')->constrained('users');
             $table->text('preparation')->nullable();
-            $table->string('materials')->nullable();
+            $table->foreignId('material_id')->nullable()->constrained('materials');
             $table->timestamps();
         });
     }

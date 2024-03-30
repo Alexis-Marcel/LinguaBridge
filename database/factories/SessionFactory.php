@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Language;
+use App\Models\Material;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -30,7 +31,7 @@ class SessionFactory extends Factory
             'max_attendees' => $this->faker->numberBetween(5, 20),
             'host_id' => User::inRandomOrder()->first()->id,
             'preparation' => $this->faker->paragraph(),
-            'materials' => $this->faker->imageUrl(),
+            'material_id' => Material::inRandomOrder()->first()->id,
         ];
     }
 }
