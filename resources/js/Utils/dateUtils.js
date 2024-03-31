@@ -12,7 +12,6 @@ export function minutesToTimeInput(minutes) {
 
 
 export function formatDate(date) {
-    console.log(date);
     // date and time without seconds
     return new Date(date).toLocaleString('en-GB', {
         year: 'numeric',

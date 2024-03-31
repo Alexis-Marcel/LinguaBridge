@@ -151,7 +151,8 @@ import {
     PlusIcon,
 } from "@heroicons/react/20/solid";
 import Footer from "@/Components/Footer";
-import { Link } from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
+import Notification from "@/Components/Notification.jsx";
 
 const products = [
     {
@@ -163,7 +164,7 @@ const products = [
     {
         name: "Session Requests",
         description: "Speak directly to your customers",
-        href: "sessions.index",
+        href: "sessions.sessionRequests",
         icon: CursorArrowRaysIcon,
     },
     {
@@ -207,8 +208,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({header, children}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const {auth, flash} = usePage().props;
 
     return (
         <>
@@ -391,7 +394,7 @@ export default function Authenticated({ user, header, children }) {
                                         </span>
                                         <img
                                             className="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src={auth.user.profile_photo}
                                             alt=""
                                         />
                                     </Menu.Button>
@@ -558,6 +561,9 @@ export default function Authenticated({ user, header, children }) {
                     </Dialog>
                 </header>
 
+                {flash?.notification && (
+                <Notification message={flash.notification.message} type={flash.notification.type} />
+                )}
                 <div className="py-3">
                     <header>
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

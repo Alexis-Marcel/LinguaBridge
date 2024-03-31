@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             MaterialSeeder::class,
             SessionSeeder::class,
+            SessionRequestSeeder::class,
         ]);
     }
 }

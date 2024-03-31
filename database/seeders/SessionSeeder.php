@@ -13,7 +13,7 @@ class SessionSeeder extends Seeder
      */
     public function run(): void
     {
-        Session::factory(100)->create();
+        Session::factory(50)->create();
 
     }
 }

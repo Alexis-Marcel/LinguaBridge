@@ -3,7 +3,7 @@ import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TableWithPaginate from "@/Components/TableWithPaginate.jsx";
 import FilterPanel from "@/Components/FilterPanel2.jsx";
-
+import { usePage} from "@inertiajs/react";
 
 
 export default function SearchSession({auth, sessions, languages}) {
@@ -16,7 +16,7 @@ export default function SearchSession({auth, sessions, languages}) {
         { name: 'Proposed By', keys: ['host', 'name'] },
     ]
 
-    console.log(sessions)
+    console.log(usePage())
 
     return (
         <AuthenticatedLayout

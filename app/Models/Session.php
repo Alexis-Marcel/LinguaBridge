@@ -47,4 +47,9 @@ class Session extends Model
     {
         return $this->belongsTo(Material::class, 'material_id');
     }
+
+    public function requests()
+    {
+        return $this->hasMany(SessionRequest::class);
+    }
 }
