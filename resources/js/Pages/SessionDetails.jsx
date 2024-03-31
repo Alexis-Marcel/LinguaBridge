@@ -135,15 +135,17 @@ export default function SessionDetails({auth, session}) {
                     </div>
                 </dl>
             </div>
-            <div className="flex justify-end border-t border-gray-100 pt-5">
-                <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={() => router.post(route('sessions.requests.store', session.id))}
-                >
-                    Request to participate
-                </button>
-            </div>
-        </AuthenticatedLayout>
-    )
-}
+            {session.host_id !== auth.user.id && (
+                <div className="flex justify-end border-t border-gray-100 pt-5">
+                    <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => router.post(route('sessions.requests.store', session.id))}
+                    >
+                        Request to participate
+                    </button>
+                </div>
+                )}
+                </AuthenticatedLayout>
+                )
+            }

@@ -1,7 +1,7 @@
 import FilterPanel from '@/Components/FilterPanel2';
 import SimpleTable from '@/Components/SimpleTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Head, router} from '@inertiajs/react';
 import TableWithPaginate from "@/Components/TableWithPaginate.jsx";
 
 
@@ -22,7 +22,7 @@ export default function ProposedSession({ auth, sessions, languages }) {
             <Head title="Proposed Session"/>
 
             <FilterPanel languages={languages} routename={'sessions.my-sessions'}/>
-            <TableWithPaginate sessions={sessions} formatData={formatData}/>
+            <TableWithPaginate sessions={sessions} formatData={formatData} onRowClick={(session) => router.get(route('sessions.show', session.id))}/>
         </AuthenticatedLayout>
     );
 }
