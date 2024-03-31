@@ -27,9 +27,31 @@ export default function SessionDetails({auth, session}) {
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Proposed by {session.host.name}</p>
                 </div>
                 {/* cover image */}
-                <div className="flex-shrink-0 w-1/3 mx-auto">
-                    <img className="aspect-[3/2] rounded-2xl object-cover" src={session.cover_photo} alt=""/>
+                <div className="flex-1 flex justify-center items-center">
+                    <img className="aspect-[3/2] rounded-2xl w-1/2" src={session.cover_photo} alt=""/>
                 </div>
+                {session.host_id === auth.user.id && (
+                <div className="ml-auto flex flex-col justify-center gap-4">
+                    <button
+                        type="button"
+                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={() => router.get(route('sessions.requests.index', session.id))}
+                    >
+                        
+                        Manage Requests
+                    </button>
+                    <button
+                        type="button"
+                        className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                        Validate Session
+                    </button>
+                    <button
+                        type="button"
+                        className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                        Delete Session
+                    </button>
+                </div>
+                )}
 
             </div>
             <div className="border-t border-gray-100">
