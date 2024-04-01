@@ -156,9 +156,9 @@ import Notification from "@/Components/Notification.jsx";
 
 const products = [
     {
-        name: "Planned Sessions",
-        description: "Get a better understanding of your traffic",
-        href: "sessions.index",
+        name: "My Session Requests",
+        description: "Get a better understanding of where your traffic is coming from.",
+        href: "sessions.my-requests",
         icon: ChartPieIcon,
     },
     {
@@ -178,12 +178,6 @@ const products = [
         description: "Connect with third-party tools",
         href: "sessions.index",
         icon: SquaresPlusIcon,
-    },
-    {
-        name: "Automations",
-        description: "Build strategic funnels that will convert",
-        href: "sessions.index",
-        icon: ArrowPathIcon,
     },
 ];
 const callsToAction = [
@@ -252,7 +246,7 @@ export default function Authenticated({header, children}) {
 
                         <Popover.Group className="hidden lg:flex lg:flex-1 lg:gap-x-12">
                             <Popover className="relative">
-                                <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+                                <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap">
                                     My Sessions
                                     <ChevronDownIcon
                                         className="h-5 w-5 flex-none text-gray-400"
@@ -318,12 +312,19 @@ export default function Authenticated({header, children}) {
 
                             <Link
                                 href={route("sessions.index")}
-                                className="text-sm font-semibold leading-6 text-gray-900"
+                                className="text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap"
                             >
                                 Discover Sessions
                             </Link>
 
-                            <Popover className="relative">
+                            <Link
+                                href={route("sessions.index")}
+                                className="text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap"
+                            >
+                                Planned Sessions
+                            </Link>
+
+                            {/*<Popover className="relative">
                                 <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                                     Company
                                     <ChevronDownIcon
@@ -353,7 +354,7 @@ export default function Authenticated({header, children}) {
                                         ))}
                                     </Popover.Panel>
                                 </Transition>
-                            </Popover>
+                            </Popover>*/}
                         </Popover.Group>
 
                         {/* Profile dropdown */}

@@ -32,14 +32,17 @@ class SessionRequestController extends Controller
     public function store(Request $request, Session $session)
     {
 
+        if($session->myRequest){
+            return back()->with('notification', [
+                'type' => 'error',
+                'message' => 'Request already sent',
+            ]);
+        }
+
         $session->requests()->create([
             'user_id' => auth()->id(),
         ]);
 
-        $request->session()->flash('notification', [
-            'type' => 'success',
-            'message' => 'Request sent',
-        ]);
 
         return redirect()->route('dashboard')->with('notification', [
             'type' => 'success',
@@ -80,6 +83,26 @@ class SessionRequestController extends Controller
         return back()->with('notification', [
             'type' => 'success',
             'message' => $request->status == 1 ? 'Request accepted' : 'Request rejected',
+        ]);
+    }
+
+    public function destroy(Session $session, $sessionRequest)
+    {
+        $sessionRequest = SessionRequest::findOrFail($sessionRequest);
+
+        if ($sessionRequest->session_id !== $session->id) {
+            abort(403);
+        }
+
+        if ($sessionRequest->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $sessionRequest->delete();
+
+        return back()->with('notification', [
+            'type' => 'success',
+            'message' => 'Request deleted',
         ]);
     }
 }

@@ -14,8 +14,6 @@ export default function ProposedSession({ auth, sessions, languages }) {
         { name: 'Language 2', keys: ['language2', 'name'] },
     ]
 
-    console.log(usePage())
-
     return (
         <AuthenticatedLayout
             user={auth.user}

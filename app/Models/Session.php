@@ -52,4 +52,9 @@ class Session extends Model
     {
         return $this->hasMany(SessionRequest::class);
     }
+
+    public function myRequest()
+    {
+        return $this->hasOne(SessionRequest::class)->where('user_id', auth()->id());
+    }
 }

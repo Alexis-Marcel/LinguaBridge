@@ -28,6 +28,7 @@ class SessionController extends Controller
 
         $query->where('host_id', '!=', auth()->id());
 
+        $query->whereDoesntHave('myRequest');
 
         $query->when($request->input('session_title'), function ($query, $searchTerm) {
             $query->where('session_title', 'like', "%{$searchTerm}%");
@@ -301,6 +302,48 @@ class SessionController extends Controller
 
 
         return Inertia::render('SessionRequests', [
+            'sessions' => $sessions,
+            'languages' => $languages,
+        ]);
+    }
+
+    public function myRequests(Request $request): Response
+    {
+
+        $languages = Language::all();
+
+        $query = Session::query();
+
+        $query->whereHas('myRequest');
+
+        $query->with('myRequest');
+
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
+
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
+
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
+
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+
+        $sessions = $query->paginate(10);
+
+        foreach ($sessions as $session) {
+            if(Storage::exists($session->cover_photo)) {
+                $session->cover_photo = Storage::url($session->cover_photo);
+            }
+        }
+
+        return Inertia::render('MyRequests', [
             'sessions' => $sessions,
             'languages' => $languages,
         ]);

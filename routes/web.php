@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [SessionController::class, 'index'])->name('sessions.index');
         Route::get('/my-sessions', [SessionController::class, 'mySessions'])->name('sessions.my-sessions');
         Route::get('/requested-sessions', [SessionController::class, 'sessionRequests'])->name('sessions.sessionRequests');
+        Route::get('/my-requests', [SessionController::class, 'myRequests'])->name('sessions.my-requests');
         Route::get('/new-session', [SessionController::class, 'create'])->name('sessions.create');
         Route::post('/new-session', [SessionController::class, 'store'])->name('sessions.store');
 
@@ -58,7 +59,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('requests')->group(function () {
                 Route::get('/', [SessionRequestController::class, 'index'])->name('sessions.requests.index');
                 Route::post('/', [SessionRequestController::class, 'store'])->name('sessions.requests.store');
-                Route::post('/{request}/status', [SessionRequestController::class, 'status'])->name('sessions.requests.status');
+                Route::prefix('{request}')->group(function () {
+                    Route::post('/status', [SessionRequestController::class, 'status'])->name('sessions.requests.status');
+                    Route::delete('/', [SessionRequestController::class, 'destroy'])->name('sessions.requests.destroy');
+                });
             });
         });
 
