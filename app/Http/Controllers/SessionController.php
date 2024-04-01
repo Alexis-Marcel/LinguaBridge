@@ -137,9 +137,9 @@ class SessionController extends Controller
 
         DB::commit();
 
-        $request->session()->flash('notification', ['message' => 'Session created successfully', 'type' => 'success']);
-
-        return redirect()->route('sessions.show', $session);
+        return redirect()->route('sessions.show', $session)->with('notification',
+            ['message' => 'Session created successfully', 'type' => 'success']
+        );
 
     }
 
@@ -213,9 +213,9 @@ class SessionController extends Controller
 
         DB::commit();
 
-        $request->session()->flash('notification', ['message' => 'Session updated successfully', 'type' => 'success']);
-
-        return redirect()->route('sessions.show', $session);
+        return redirect()->route('sessions.show', $session)->with('notification',
+            ['message' => 'Session updated successfully', 'type' => 'success']
+        );
     }
 
 
@@ -322,6 +322,18 @@ class SessionController extends Controller
         $session->participants = $session->requests()->where('status', 1)->count();
 
         return Inertia::render('SessionDetails', ['session' => $session]);
+    }
+
+    public function destroy(Session $session): RedirectResponse
+    {
+        $session->delete();
+
+        return redirect()->route('sessions.my-sessions')->with(
+            'notification', [
+                'message' => 'Session deleted successfully',
+                'type' => 'success',
+            ],
+        );
     }
 
     public function downloadMaterial(Session $session, Material $material): RedirectResponse | BinaryFileResponse

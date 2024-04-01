@@ -1,7 +1,7 @@
 import FilterPanel from '@/Components/FilterPanel2';
 import SimpleTable from '@/Components/SimpleTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, router} from '@inertiajs/react';
+import {Head, router, usePage} from '@inertiajs/react';
 import TableWithPaginate from "@/Components/TableWithPaginate.jsx";
 
 
@@ -13,6 +13,8 @@ export default function ProposedSession({ auth, sessions, languages }) {
         { name: 'Language 1', keys: ['language1', 'name'] },
         { name: 'Language 2', keys: ['language2', 'name'] },
     ]
+
+    console.log(usePage())
 
     return (
         <AuthenticatedLayout

@@ -41,7 +41,10 @@ class SessionRequestController extends Controller
             'message' => 'Request sent',
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('notification', [
+            'type' => 'success',
+            'message' => 'Request sent',
+        ]);
     }
 
     public function status(Request $request, Session $session, $sessionRequest)
@@ -62,12 +65,11 @@ class SessionRequestController extends Controller
         }
 
         if ($session->requests()->where('status', 1)->count() >= $session->max_attendees && $request->status == 1) {
-            $request->session()->flash('notification', [
+
+            return back()->with('notification', [
                 'type' => 'error',
                 'message' => 'Session is full',
             ]);
-
-            return;
         }
 
         $sessionRequest->update([
@@ -75,10 +77,9 @@ class SessionRequestController extends Controller
         ]);
 
 
-        $request->session()->flash('notification', [
+        return back()->with('notification', [
             'type' => 'success',
             'message' => $request->status == 1 ? 'Request accepted' : 'Request rejected',
         ]);
-        return;
     }
 }

@@ -1,11 +1,7 @@
-import {PaperClipIcon, PencilSquareIcon, XMarkIcon, CheckIcon} from '@heroicons/react/20/solid'
-import {Head, Link, router, useForm, usePage} from "@inertiajs/react";
-import {useState} from "react";
+import {PaperClipIcon} from '@heroicons/react/20/solid'
+import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {formatDate, formatDuration} from "@/Utils/dateUtils.js";
-import TextInput from "@/Components/TextInput.jsx";
-import InputError from "@/Components/InputError.jsx";
-import EditableField from "@/Components/EditableField.jsx";
 
 
 function sizeFormat(bytes) {
@@ -16,7 +12,6 @@ function sizeFormat(bytes) {
 }
 
 export default function SessionDetails({auth, session}) {
-
 
     return (
         <AuthenticatedLayout user={auth.user} header="Session Details">
@@ -37,7 +32,6 @@ export default function SessionDetails({auth, session}) {
                         className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         onClick={() => router.get(route('sessions.requests.index', session.id))}
                     >
-                        
                         Manage Requests
                     </button>
                     <button
@@ -47,7 +41,10 @@ export default function SessionDetails({auth, session}) {
                     </button>
                     <button
                         type="button"
-                        className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                        className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                        onClick={() => router.delete(route('sessions.destroy', session.id))}
+                    >
+
                         Delete Session
                     </button>
                 </div>

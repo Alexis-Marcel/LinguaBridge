@@ -560,10 +560,6 @@ export default function Authenticated({header, children}) {
                         </Dialog.Panel>
                     </Dialog>
                 </header>
-
-                {flash?.notification && (
-                <Notification message={flash.notification.message} type={flash.notification.type} />
-                )}
                 <div className="py-3">
                     <header>
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -577,6 +573,9 @@ export default function Authenticated({header, children}) {
                             {children}
                         </div>
                     </main>
+                    {flash?.notification && (
+                        <Notification message={flash.notification.message} type={flash.notification.type} />
+                    )}
                 </div>
 
                 <Footer />
