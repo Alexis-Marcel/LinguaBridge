@@ -13,6 +13,8 @@ function sizeFormat(bytes) {
 
 export default function SessionDetails({auth, session}) {
 
+    console.log(session);
+
     return (
         <AuthenticatedLayout user={auth.user} header="Session Details">
             <Head title="Session Details"/>
@@ -154,7 +156,7 @@ export default function SessionDetails({auth, session}) {
                     </div>
                 </dl>
             </div>
-            {session.host_id !== auth.user.id && (
+            {session.host_id !== auth.user.id && session.my_request === null && (
                 <div className="flex justify-end border-t border-gray-100 pt-5">
                     <button
                         type="button"

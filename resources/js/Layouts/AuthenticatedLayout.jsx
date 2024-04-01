@@ -157,25 +157,25 @@ import Notification from "@/Components/Notification.jsx";
 const products = [
     {
         name: "My Session Requests",
-        description: "Get a better understanding of where your traffic is coming from.",
+        description: "See your session requests",
         href: "sessions.my-requests",
         icon: ChartPieIcon,
     },
     {
         name: "Session Requests",
-        description: "Speak directly to your customers",
+        description: "See who is requesting your sessions",
         href: "sessions.sessionRequests",
         icon: CursorArrowRaysIcon,
     },
     {
         name: "Proposed Sessions",
-        description: "Your customers’ data will be safe and secure",
+        description: "View sessions you have proposed",
         href: "sessions.my-sessions",
         icon: FingerPrintIcon,
     },
     {
         name: "Session History",
-        description: "Connect with third-party tools",
+        description: "Your past sessions",
         href: "sessions.index",
         icon: SquaresPlusIcon,
     },

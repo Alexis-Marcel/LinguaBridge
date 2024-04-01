@@ -352,7 +352,7 @@ class SessionController extends Controller
     public function show(Session $session): Response
     {
 
-        $session->load('host:id,name', 'language1:code,name', 'language2:code,name', 'material:id,name,size,path');
+        $session->load('host:id,name', 'language1:code,name', 'language2:code,name', 'material:id,name,size,path', 'myRequest');
 
         if(Storage::exists($session->cover_photo)) {
             $session->cover_photo = Storage::url($session->cover_photo);
