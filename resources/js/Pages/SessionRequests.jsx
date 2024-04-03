@@ -5,7 +5,6 @@ import FilterPanel from "@/Components/FilterPanel2.jsx";
 import Paginate from "@/Components/Paginate.jsx";
 
 export default function SessionRequests({auth, sessions, languages}) {
-    console.log(sessions)
     return (
         <Authenticated user={auth.user} header="Session Requests">
             <Head title="Session Requests"/>

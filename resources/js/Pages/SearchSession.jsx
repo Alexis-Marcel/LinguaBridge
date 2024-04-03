@@ -15,7 +15,7 @@ export default function SearchSession({auth, sessions, languages}) {
         { name: 'Language 2', keys: ['language2', 'name'] },
         { name: 'Proposed By', keys: ['host', 'name'] },
     ]
-    
+
     return (
         <AuthenticatedLayout
             user={auth.user}

@@ -32,16 +32,22 @@ class SessionRequestController extends Controller
     public function store(Request $request, Session $session)
     {
 
+        if($session->myRequest){
+            return back()->with('notification', [
+                'type' => 'error',
+                'message' => 'Request already sent',
+            ]);
+        }
+
         $session->requests()->create([
             'user_id' => auth()->id(),
         ]);
 
-        $request->session()->flash('notification', [
+
+        return redirect()->route('dashboard')->with('notification', [
             'type' => 'success',
             'message' => 'Request sent',
         ]);
-
-        return redirect()->route('dashboard');
     }
 
     public function status(Request $request, Session $session, $sessionRequest)
@@ -62,12 +68,11 @@ class SessionRequestController extends Controller
         }
 
         if ($session->requests()->where('status', 1)->count() >= $session->max_attendees && $request->status == 1) {
-            $request->session()->flash('notification', [
+
+            return back()->with('notification', [
                 'type' => 'error',
                 'message' => 'Session is full',
             ]);
-
-            return;
         }
 
         $sessionRequest->update([
@@ -75,10 +80,29 @@ class SessionRequestController extends Controller
         ]);
 
 
-        $request->session()->flash('notification', [
+        return back()->with('notification', [
             'type' => 'success',
             'message' => $request->status == 1 ? 'Request accepted' : 'Request rejected',
         ]);
-        return;
+    }
+
+    public function destroy(Session $session, $sessionRequest)
+    {
+        $sessionRequest = SessionRequest::findOrFail($sessionRequest);
+
+        if ($sessionRequest->session_id !== $session->id) {
+            abort(403);
+        }
+
+        if ($sessionRequest->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $sessionRequest->delete();
+
+        return back()->with('notification', [
+            'type' => 'success',
+            'message' => 'Request deleted',
+        ]);
     }
 }

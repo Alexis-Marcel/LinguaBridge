@@ -28,6 +28,7 @@ class SessionController extends Controller
 
         $query->where('host_id', '!=', auth()->id());
 
+        $query->whereDoesntHave('myRequest');
 
         $query->when($request->input('session_title'), function ($query, $searchTerm) {
             $query->where('session_title', 'like', "%{$searchTerm}%");
@@ -137,9 +138,9 @@ class SessionController extends Controller
 
         DB::commit();
 
-        $request->session()->flash('notification', ['message' => 'Session created successfully', 'type' => 'success']);
-
-        return redirect()->route('sessions.show', $session);
+        return redirect()->route('sessions.show', $session)->with('notification',
+            ['message' => 'Session created successfully', 'type' => 'success']
+        );
 
     }
 
@@ -213,9 +214,9 @@ class SessionController extends Controller
 
         DB::commit();
 
-        $request->session()->flash('notification', ['message' => 'Session updated successfully', 'type' => 'success']);
-
-        return redirect()->route('sessions.show', $session);
+        return redirect()->route('sessions.show', $session)->with('notification',
+            ['message' => 'Session updated successfully', 'type' => 'success']
+        );
     }
 
 
@@ -306,10 +307,52 @@ class SessionController extends Controller
         ]);
     }
 
+    public function myRequests(Request $request): Response
+    {
+
+        $languages = Language::all();
+
+        $query = Session::query();
+
+        $query->whereHas('myRequest');
+
+        $query->with('myRequest');
+
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
+
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
+
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
+
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+
+        $sessions = $query->paginate(10);
+
+        foreach ($sessions as $session) {
+            if(Storage::exists($session->cover_photo)) {
+                $session->cover_photo = Storage::url($session->cover_photo);
+            }
+        }
+
+        return Inertia::render('MyRequests', [
+            'sessions' => $sessions,
+            'languages' => $languages,
+        ]);
+    }
+
     public function show(Session $session): Response
     {
 
-        $session->load('host:id,name', 'language1:code,name', 'language2:code,name', 'material:id,name,size,path');
+        $session->load('host:id,name', 'language1:code,name', 'language2:code,name', 'material:id,name,size,path', 'myRequest');
 
         if(Storage::exists($session->cover_photo)) {
             $session->cover_photo = Storage::url($session->cover_photo);
@@ -322,6 +365,18 @@ class SessionController extends Controller
         $session->participants = $session->requests()->where('status', 1)->count();
 
         return Inertia::render('SessionDetails', ['session' => $session]);
+    }
+
+    public function destroy(Session $session): RedirectResponse
+    {
+        $session->delete();
+
+        return redirect()->route('sessions.my-sessions')->with(
+            'notification', [
+                'message' => 'Session deleted successfully',
+                'type' => 'success',
+            ],
+        );
     }
 
     public function downloadMaterial(Session $session, Material $material): RedirectResponse | BinaryFileResponse

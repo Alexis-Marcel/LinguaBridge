@@ -156,34 +156,28 @@ import Notification from "@/Components/Notification.jsx";
 
 const products = [
     {
-        name: "Planned Sessions",
-        description: "Get a better understanding of your traffic",
-        href: "sessions.index",
+        name: "My Session Requests",
+        description: "See your session requests",
+        href: "sessions.my-requests",
         icon: ChartPieIcon,
     },
     {
         name: "Session Requests",
-        description: "Speak directly to your customers",
+        description: "See who is requesting your sessions",
         href: "sessions.sessionRequests",
         icon: CursorArrowRaysIcon,
     },
     {
         name: "Proposed Sessions",
-        description: "Your customers’ data will be safe and secure",
+        description: "View sessions you have proposed",
         href: "sessions.my-sessions",
         icon: FingerPrintIcon,
     },
     {
         name: "Session History",
-        description: "Connect with third-party tools",
+        description: "Your past sessions",
         href: "sessions.index",
         icon: SquaresPlusIcon,
-    },
-    {
-        name: "Automations",
-        description: "Build strategic funnels that will convert",
-        href: "sessions.index",
-        icon: ArrowPathIcon,
     },
 ];
 const callsToAction = [
@@ -252,7 +246,7 @@ export default function Authenticated({header, children}) {
 
                         <Popover.Group className="hidden lg:flex lg:flex-1 lg:gap-x-12">
                             <Popover className="relative">
-                                <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+                                <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap">
                                     My Sessions
                                     <ChevronDownIcon
                                         className="h-5 w-5 flex-none text-gray-400"
@@ -318,12 +312,19 @@ export default function Authenticated({header, children}) {
 
                             <Link
                                 href={route("sessions.index")}
-                                className="text-sm font-semibold leading-6 text-gray-900"
+                                className="text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap"
                             >
                                 Discover Sessions
                             </Link>
 
-                            <Popover className="relative">
+                            <Link
+                                href={route("sessions.index")}
+                                className="text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap"
+                            >
+                                Planned Sessions
+                            </Link>
+
+                            {/*<Popover className="relative">
                                 <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                                     Company
                                     <ChevronDownIcon
@@ -353,7 +354,7 @@ export default function Authenticated({header, children}) {
                                         ))}
                                     </Popover.Panel>
                                 </Transition>
-                            </Popover>
+                            </Popover>*/}
                         </Popover.Group>
 
                         {/* Profile dropdown */}
@@ -560,10 +561,6 @@ export default function Authenticated({header, children}) {
                         </Dialog.Panel>
                     </Dialog>
                 </header>
-
-                {flash?.notification && (
-                <Notification message={flash.notification.message} type={flash.notification.type} />
-                )}
                 <div className="py-3">
                     <header>
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -577,6 +574,9 @@ export default function Authenticated({header, children}) {
                             {children}
                         </div>
                     </main>
+                    {flash?.notification && (
+                        <Notification message={flash.notification.message} type={flash.notification.type} />
+                    )}
                 </div>
 
                 <Footer />
