@@ -151,11 +151,11 @@ class ZoomAuthController extends Controller
         $meeting_number = $request->input('meeting_number');
         $role = $request->input('role');
 
-        $iat = floor(time());
+        $iat = time();
         $exp = $iat + 60 * 60 * 2;
-        $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
+        $header = ['alg' => 'HS256', 'typ' => 'JWT'];
 
-        $payload = json_encode([
+        $payload = [
             'appKey' => $api_key,
             'sdkKey' => $api_key,
             'mn' => $meeting_number,
@@ -163,19 +163,11 @@ class ZoomAuthController extends Controller
             'iat' => $iat,
             'exp' => $exp,
             'tokenExp' => $exp
-        ]);
+        ];
 
-        // Base64 encode the header and payload
-        $base64Header = base64_encode($header);
-        $base64Payload = base64_encode($payload);
+        // Créer le JWT en utilisant la bibliothèque Firebase JWT
+        $jwt = JWT::encode($payload, $api_secret, 'HS256', null, $header);
 
-        // Create the signature using HMAC SHA256
-        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $api_secret, true);
-        $base64Signature = base64_encode($signature);
-
-        // Concatenate the base64 encoded header, payload, and signature to create the JWT
-        $jwt = $base64Header . '.' . $base64Payload . '.' . $base64Signature;
-
-        return response()->json(['signature' => $jwt]);
+        return response()->json(['jwt' => $jwt]);
     }
 }

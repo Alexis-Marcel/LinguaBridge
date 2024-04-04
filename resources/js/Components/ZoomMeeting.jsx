@@ -13,40 +13,42 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password, role}) {
 
     const launchMeeting = () => {
 
-        // Requete Post au back pour récupérer la signature en json
-
-        let signature = "";
-        const getSignature = async () => {
-            const response = await axios.post(route('zoom.signature'), {
-                params: {
-                    meetingNumber: meetingNumber,
-                    role: role,
-                },
+        function getJWT() {
+            return axios.post(route('zoom.signature'), {
+                meeting_number: meetingNumber,
+                role: role
+            }).then((response) => {
+                return response.data.jwt;
+            }).catch((error) => {
+                console.error(error);
+                return null;
             });
-            signature = response.data.signature;
-            return response.data.signature;
         }
 
-        client.init({
-            zoomAppRoot: document.getElementById('meetingSDKElement'),
-            language: 'en-US',
-            patchJsMedia: true,
-        }).then(() => {
-            client.join({
-                sdkKey: sdkKey,
-                signature: signature,
-                meetingNumber: meetingNumber,
-                password: password,
-                userName: userName,
-            }).then(() => {
-                console.log('Meeting joined')
-            }).catch((error) => {
-                console.error(error)
-            })
-        }).catch((error) => {
-            console.error(error)
-        })
-        setButtonClicked(true);
+        getJWT().then((jwt) => {
+            if (jwt) {
+                client.init({
+                    zoomAppRoot: document.getElementById('meetingSDKElement'),
+                    language: 'en-US',
+                    patchJsMedia: true,
+                }).then(() => {
+                    client.join({
+                        sdkKey: sdkKey,
+                        signature: jwt,
+                        meetingNumber: meetingNumber,
+                        password: password,
+                        userName: userName,
+                    }).then(() => {
+                        console.log('Meeting joined')
+                    }).catch((error) => {
+                        console.error(error)
+                    })
+                }).catch((error) => {
+                    console.error(error)
+                })
+                setButtonClicked(true);
+            }
+        });
     }
 
     return (
