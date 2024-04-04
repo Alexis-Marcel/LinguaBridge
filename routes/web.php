@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProposedSessionController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\NewSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionRequestController;
+use App\Http\Controllers\ZoomAuthController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix('{session}')->group(function () {
             Route::get('/', [SessionController::class, 'show'])->name('sessions.show');
+            Route::post('/start', [SessionController::class, 'start'])->middleware('refresh.token')->name('sessions.start');
             Route::put('/', [SessionController::class, 'update'])->name('sessions.update');
             Route::delete('/', [SessionController::class, 'destroy'])->name('sessions.destroy');
             Route::get('/material/download/{material}', [SessionController::class, 'downloadMaterial'])->name('sessions.download-material');
@@ -67,6 +67,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
     });
+
+    Route::get('/auth/zoom', [ZoomAuthController::class, 'redirectToZoom'])->name('zoom.auth');
+    Route::get('/oauth/callback', [ZoomAuthController::class, 'handleCallback'])->name('zoom.callback');
 
 });
 
