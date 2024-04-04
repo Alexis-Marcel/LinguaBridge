@@ -15,6 +15,8 @@ class Session extends Model
      */
     protected $fillable = [
         'session_title',
+        'meeting_id',
+        'meeting_password',
         'description',
         'language1_id',
         'language2_id',

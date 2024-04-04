@@ -433,6 +433,12 @@ class SessionController extends Controller
         // On récupère les données de la réponse
         $data = $response->json();
 
+        // On save en base de données le meetingid et le password
+        $session->update([
+            'meeting_id' => $data['id'],
+            'meeting_password' => $data['password']
+        ]);
+
         return redirect()->back()->with('notification', ['message' => 'Session started successfully', 'type' => 'success']);
     }
 }

@@ -21,6 +21,8 @@ class SessionFactory extends Factory
     {
         return [
             'session_title' => $this->faker->sentence(),
+            'meeting_id' => $this->faker->uuid,
+            'meeting_password' => $this->faker->password(),
             'language1_id' => Language::inRandomOrder()->first()->code,
             'language2_id' => Language::inRandomOrder()->first()->code,
             'description' => $this->faker->paragraph(),

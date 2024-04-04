@@ -20,7 +20,8 @@ export default function Dashboard({ auth }) {
                   <h2 id="section-1-title">
                     {auth.user.name}
                   </h2>
-                  <div className=" rounded-lg bg-white shadow">
+                    <a href={route('zoom.auth')}>Se connecter avec Zoom</a>
+                    <div className=" rounded-lg bg-white shadow">
                     <div className="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id eros libero. Praesent porttitor ante nec ultricies gravida. Etiam eget tortor sit amet ex finibus lobortis. Integer eget scelerisque nulla. Nulla eu tortor nibh. Vestibulum pulvinar condimentum ipsum. Nunc condimentum enim mi. Nullam sit amet orci vel velit aliquam tempor ac eu urna. Maecenas eu aliquam augue. Aliquam erat volutpat. Morbi quis tincidunt ligula. Aenean varius rutrum lacus, vel vehicula tortor laoreet sit amet.
 
 Donec bibendum diam id sagittis ultricies. Fusce vitae interdum velit. Etiam interdum id velit vulputate tincidunt. Aenean vehicula velit vitae tortor sagittis tempor. Ut tincidunt sem vitae nulla pretium condimentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi scelerisque nunc at dolor sagittis luctus sed eu lacus. Donec quis mauris at augue fringilla volutpat a et dolor. Donec finibus orci nec lectus rhoncus suscipit. Maecenas auctor massa sed nunc porttitor, sed tempus diam ornare. Etiam id dui enim. Morbi finibus, diam eu fringilla volutpat, justo leo sollicitudin sapien, vitae varius sem eros non ligula.</div>
@@ -41,7 +42,7 @@ Donec bibendum diam id sagittis ultricies. Fusce vitae interdum velit. Etiam int
               </div>
             </div>
           </div>
-        
+
         </AuthenticatedLayout>
     );
 }
