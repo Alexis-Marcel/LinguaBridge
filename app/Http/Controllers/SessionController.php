@@ -7,12 +7,14 @@ use App\Models\Material;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Models\ZoomToken;
 
 class SessionController extends Controller
 {
@@ -390,5 +392,47 @@ class SessionController extends Controller
         }
 
         return response()->download(Storage::path($material->path), $material->name);
+    }
+
+    /**
+     * Function to create a session with api call zoom
+     */
+    public function start(Session $session): RedirectResponse
+    {
+
+        // On récupère le token de l'utilisateur en base de données
+        $token = ZoomToken::where('user_id', auth()->id())->first();
+
+        // Si le token n'existe pas, on écrit un message d'erreur
+        if (!$token) {
+            return redirect()->back()->with('notification', ['message' => 'Connection to zoom first', 'type' => 'error']);
+        }
+
+        // On récupère le token d'accès
+        $access_token = $token->access_token;
+
+        // On récupère les informations sur la session
+        $session = $session->load('language1', 'language2');
+
+        // On récupère l'url de l'api zoom
+        $url = "https://api.zoom.us/v2/users/me/meetings";
+
+        // On construit le corps de la requête
+        $data = [
+            'topic' => $session->session_title,
+            'type' => 1
+        ];
+
+        $response = Http::withToken($access_token)->post($url, $data);
+
+        // On vérifie si la requête a échoué
+        if ($response->failed()) {
+            return redirect()->back()->with('notification', ['message' => 'Failed to start session', 'type' => 'error']);
+        }
+
+        // On récupère les données de la réponse
+        $data = $response->json();
+
+        return redirect()->back()->with('notification', ['message' => 'Session started successfully', 'type' => 'success']);
     }
 }

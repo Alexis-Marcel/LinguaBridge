@@ -38,7 +38,9 @@ export default function SessionDetails({auth, session}) {
                     </button>
                     <button
                         type="button"
-                        className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                        className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        onClick={() => router.post(route('sessions.start', session.id))}
+                    >
                         Validate Session
                     </button>
                     <button
@@ -166,7 +168,7 @@ export default function SessionDetails({auth, session}) {
                         Request to participate
                     </button>
                 </div>
-                )}
-                </AuthenticatedLayout>
-                )
-            }
+            )}
+        </AuthenticatedLayout>
+    )
+}
