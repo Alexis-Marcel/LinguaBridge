@@ -195,7 +195,7 @@ const company = [
 const profile = [
     { name: "Your Profile", method:"get", href:route("profile.edit") },
     { name: "Settings", method:"get", href:route("profile.edit") },
-    { name: "Sign out", method:"post", href:route("profile.destroy") },
+    { name: "Sign out", method:"delete", href:route("profile.destroy") },
 ];
 
 function classNames(...classes) {
@@ -551,6 +551,7 @@ export default function Authenticated({header, children}) {
                                                 key={item.name}
                                                 href={item.href}
                                                 className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                                method={item.method}
                                             >
                                                 {item.name}
                                             </Link>
