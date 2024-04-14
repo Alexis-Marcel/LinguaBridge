@@ -10,4 +10,5 @@ export default defineConfig({
         }),
         react(),
     ],
+    envPrefix: ['VITE_', 'REACT_APP_', 'ZOOM_']
 });
