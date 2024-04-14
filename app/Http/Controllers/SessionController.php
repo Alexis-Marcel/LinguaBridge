@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Language;
 use App\Models\Material;
 use App\Models\Session;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +27,6 @@ class SessionController extends Controller
         $query = Session::query();
 
         $query->with('host:id,name', 'language1:code,name', 'language2:code,name');
-
 
         $query->where('host_id', '!=', auth()->id());
 
@@ -366,6 +366,7 @@ class SessionController extends Controller
 
         $session->participants = $session->requests()->where('status', 1)->count();
 
+        $session->makeHidden('meeting_password');
         return Inertia::render('SessionDetails', ['session' => $session]);
     }
 
@@ -396,6 +397,7 @@ class SessionController extends Controller
 
     /**
      * Function to create a session with api call zoom
+     * @throws \Exception
      */
     public function start(Session $session): RedirectResponse
     {
@@ -420,7 +422,9 @@ class SessionController extends Controller
         // On construit le corps de la requête
         $data = [
             'topic' => $session->session_title,
-            'type' => 1
+            'type' => 2,
+            // Format : yyyy-MM-ddTHH:mm:ssZ
+            'start_time' => (new DateTime($session->date))->format('Y-m-d\TH:i:s\Z'),
         ];
 
         $response = Http::withToken($access_token)->post($url, $data);
