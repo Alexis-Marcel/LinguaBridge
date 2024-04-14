@@ -28,6 +28,7 @@ class Session extends Model
         'host_id',
         'preparation',
         'material_id',
+        'status'
     ];
 
     public function host() : BelongsTo

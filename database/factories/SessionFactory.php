@@ -34,6 +34,7 @@ class SessionFactory extends Factory
             'host_id' => User::inRandomOrder()->first()->id,
             'preparation' => $this->faker->paragraph(),
             'material_id' => Material::inRandomOrder()->first()->id,
+            'status' => 0,
         ];
     }
 }

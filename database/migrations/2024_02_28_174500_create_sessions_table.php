@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreignId('host_id')->constrained('users');
             $table->text('preparation')->nullable();
             $table->foreignId('material_id')->nullable()->constrained('materials');
+            $table->integer('status')->default(0); // 0: pending, 1: active, 2: finished
             $table->timestamps();
         });
     }
