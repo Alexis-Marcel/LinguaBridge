@@ -440,17 +440,72 @@ class SessionController extends Controller
         // On save en base de données le meetingid et le password
         $session->update([
             'meeting_id' => $data['id'],
-            'meeting_password' => $data['password']
+            'meeting_password' => $data['password'],
+            'status' => 1,
         ]);
 
         return redirect()->back()->with('notification', ['message' => 'Session started successfully', 'type' => 'success']);
     }
 
-    public function meeting(Session $session): Response
+    public function meeting(Session $session): Response | RedirectResponse
     {
         $session->load('language1', 'language2');
 
+        if ($session->status == 2) {
+            return redirect()->back()->with('notification', ['message' => 'The session is over', 'type' => 'error']);
+        }
+
+        if ($session->status == 0) {
+            return redirect()->back()->with('notification', ['message' => 'The session has not started yet', 'type' => 'error']);
+        }
+
         return Inertia::render('MeetingView', ['session' => $session]);
+    }
+
+
+    /**
+     * Function to get the list of all the sessions where the user participated
+     */
+    public function myScheduled(Request $request): Response
+    {
+        $languages = Language::all();
+
+        $query = Session::query();
+
+        $query->whereHas('requests', function ($query) {
+            $query->where('user_id', auth()->id())->where('status', 1);
+        })->where('status', 1);
+
+        $query->with('language1:code,name', 'language2:code,name');
+
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
+
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
+
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
+
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+        $sessions = $query->paginate(10);
+
+        foreach ($sessions as $session) {
+            if(Storage::exists($session->cover_photo)) {
+                $session->cover_photo = Storage::url($session->cover_photo);
+            }
+        }
+
+        return Inertia::render('ScheduledSession', [
+            'sessions' => $sessions,
+            'languages' => $languages,
+        ]);
     }
 
 }
