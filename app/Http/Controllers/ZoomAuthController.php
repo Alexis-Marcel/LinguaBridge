@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Session;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -136,6 +137,10 @@ class ZoomAuthController extends Controller
         // On récupère le token Zoom de l'utilisateur
         $zoomToken = ZoomToken::where('user_id', $user->id)->first();
 
+        if (!$zoomToken) {
+            return false;
+        }
+
         // On vérifie si le token Zoom de l'utilisateur est expiré
         if ($zoomToken->expires_in + $zoomToken->created_at->timestamp < now()->timestamp) {
             return true;
@@ -144,30 +149,43 @@ class ZoomAuthController extends Controller
         return false;
     }
 
-    public function generateSignature(Request $request): \Illuminate\Http\JsonResponse
+    public function jsonMeeting(Request $request): \Illuminate\Http\JsonResponse
     {
         $api_key = env('ZOOM_CLIENT_ID');
         $api_secret = env('ZOOM_CLIENT_SECRET');
-        $meeting_number = $request->input('meeting_number');
-        $role = $request->input('role');
+        $meeting_id = $request->input('meeting_number');
+        // On retrouve la réunion en fonction de l'id
+        $session = Session::where('meeting_id', $meeting_id)->first();
+        if (!$session) {
+            return response()->json(['error' => 'Meeting not found.']);
+        }
+        // Si la personne est l'hôte de la réunion, le rôle doit être 1 (hôte) sinon 0 (participant)
+        $user = User::find(auth()->id());
+        $role = $session->host_id === $user->id ? 1 : 0;
+        // Si la personne n'est pas l'hôte de la réunion, on vérifie si elle est inscrite à la réunion
+        if ($role === 0) {
+            $role = $session->requests()->where('user_id', $user->id)->exists() ? 0 : -1;
+            if ($role === -1) {
+                return response()->json(['error' => 'You are not allowed to join this meeting.']);
+            }
+        }
 
-        $iat = time();
+        // Créer le JWT signature
+        $iat = floor(time())-30;
         $exp = $iat + 60 * 60 * 2;
         $header = ['alg' => 'HS256', 'typ' => 'JWT'];
 
         $payload = [
             'appKey' => $api_key,
             'sdkKey' => $api_key,
-            'mn' => $meeting_number,
+            'mn' => $meeting_id,
             'role' => $role,
             'iat' => $iat,
             'exp' => $exp,
             'tokenExp' => $exp
         ];
-
-        // Créer le JWT en utilisant la bibliothèque Firebase JWT
         $jwt = JWT::encode($payload, $api_secret, 'HS256', null, $header);
 
-        return response()->json(['jwt' => $jwt]);
+        return response()->json(['jwt' => $jwt, 'meeting_password' => $session->meeting_password]);
     }
 }

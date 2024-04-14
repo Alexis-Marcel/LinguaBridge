@@ -23,6 +23,7 @@ class RefreshToken
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if ($this->zoomAuthController->isTokenExpired()) {
             $this->zoomAuthController->refreshToken();
         }

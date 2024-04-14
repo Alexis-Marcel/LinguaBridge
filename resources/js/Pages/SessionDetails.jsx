@@ -160,7 +160,7 @@ export default function SessionDetails({auth, session}) {
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-900">Zoom Meeting</dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <ZoomMeeting meetingNumber={session.meeting_id} sdkKey={"qoHEUuL9QCyntY23HS7LWA"} userName={auth.user.name} password={session.meeting_password} role={session.host_id !== auth.user.id ? 0 : 1}/>
+                            <ZoomMeeting meetingNumber={session.meeting_id} sdkKey={"qoHEUuL9QCyntY23HS7LWA"} userName={auth.user.name} password={session.meeting_password} />
                         </dd>
                     </div>
                 </dl>

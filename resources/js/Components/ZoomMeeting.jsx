@@ -4,7 +4,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true; // Inclut tous les cookies dans la requête
 
-function ZoomMeeting({sdkKey, meetingNumber, userName, password, role}) {
+function ZoomMeeting({sdkKey, meetingNumber, userName, password}) {
 
     const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -14,19 +14,19 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password, role}) {
     const launchMeeting = () => {
 
         function getJWT() {
-            return axios.post(route('zoom.signature'), {
+            return axios.post(route('zoom.meeting'), {
                 meeting_number: meetingNumber,
-                role: role
             }).then((response) => {
-                return response.data.jwt;
+                console.log(response.data);
+                return response.data;
             }).catch((error) => {
                 console.error(error);
                 return null;
             });
         }
 
-        getJWT().then((jwt) => {
-            if (jwt) {
+        getJWT().then((data) => {
+            if (data) {
                 client.init({
                     zoomAppRoot: document.getElementById('meetingSDKElement'),
                     language: 'en-US',
@@ -34,11 +34,12 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password, role}) {
                 }).then(() => {
                     client.join({
                         sdkKey: sdkKey,
-                        signature: jwt,
+                        signature: data.jwt,
                         meetingNumber: meetingNumber,
-                        password: password,
+                        password: data.meeting_password,
                         userName: userName,
                     }).then(() => {
+                        setButtonClicked(true);
                         console.log('Meeting joined')
                     }).catch((error) => {
                         console.error(error)
@@ -46,7 +47,6 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password, role}) {
                 }).catch((error) => {
                     console.error(error)
                 })
-                setButtonClicked(true);
             }
         });
     }

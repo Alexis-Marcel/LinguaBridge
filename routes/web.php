@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('oauth')->group(function () {
         Route::get('/zoom', [ZoomAuthController::class, 'redirectToZoom'])->name('zoom.auth');
         Route::get('/callback', [ZoomAuthController::class, 'handleCallback'])->name('zoom.callback');
-        Route::post('/signature', [ZoomAuthController::class, 'generateSignature'])->name('zoom.signature');
+        Route::post('/meeting', [ZoomAuthController::class, 'jsonMeeting'])->name('zoom.meeting');
     });
 
 
