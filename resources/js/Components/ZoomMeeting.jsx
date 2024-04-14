@@ -4,7 +4,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true; // Inclut tous les cookies dans la requête
 
-function ZoomMeeting({sdkKey, meetingNumber, userName, password}) {
+function ZoomMeeting({meetingNumber, userName}) {
 
     const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -26,6 +26,10 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password}) {
         }
 
         getJWT().then((data) => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
             if (data) {
                 client.init({
                     zoomAppRoot: document.getElementById('meetingSDKElement'),
@@ -33,7 +37,7 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password}) {
                     patchJsMedia: true,
                 }).then(() => {
                     client.join({
-                        sdkKey: sdkKey,
+                        sdkKey: import.meta.env.ZOOM_CLIENT_ID,
                         signature: data.jwt,
                         meetingNumber: meetingNumber,
                         password: data.meeting_password,
@@ -45,6 +49,7 @@ function ZoomMeeting({sdkKey, meetingNumber, userName, password}) {
                         console.error(error)
                     })
                 }).catch((error) => {
+                    setButtonClicked(false);
                     console.error(error)
                 })
             }

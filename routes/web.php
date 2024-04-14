@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/', [SessionController::class, 'update'])->name('sessions.update');
             Route::delete('/', [SessionController::class, 'destroy'])->name('sessions.destroy');
             Route::get('/material/download/{material}', [SessionController::class, 'downloadMaterial'])->name('sessions.download-material');
+            Route::get('/meeting', [SessionController::class, 'meeting'])->name('sessions.meeting');
 
             Route::prefix('requests')->group(function () {
                 Route::get('/', [SessionRequestController::class, 'index'])->name('sessions.requests.index');

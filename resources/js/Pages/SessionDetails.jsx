@@ -2,7 +2,6 @@ import {PaperClipIcon} from '@heroicons/react/20/solid'
 import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {formatDate, formatDuration} from "@/Utils/dateUtils.js";
-import ZoomMeeting from "@/Components/ZoomMeeting.jsx";
 
 
 function sizeFormat(bytes) {
@@ -153,18 +152,9 @@ export default function SessionDetails({auth, session}) {
                                     <div> No material provided</div>
                                 )
                             }
-
-
-                        </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-900">Zoom Meeting</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <ZoomMeeting meetingNumber={session.meeting_id} sdkKey={"qoHEUuL9QCyntY23HS7LWA"} userName={auth.user.name} password={session.meeting_password} />
                         </dd>
                     </div>
                 </dl>
-
             </div>
             {session.host_id !== auth.user.id && session.my_request === null && (
                 <div className="flex justify-end border-t border-gray-100 pt-5">

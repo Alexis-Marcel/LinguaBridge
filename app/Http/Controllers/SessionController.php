@@ -445,4 +445,12 @@ class SessionController extends Controller
 
         return redirect()->back()->with('notification', ['message' => 'Session started successfully', 'type' => 'success']);
     }
+
+    public function meeting(Session $session): Response
+    {
+        $session->load('language1', 'language2');
+
+        return Inertia::render('MeetingView', ['session' => $session]);
+    }
+
 }
