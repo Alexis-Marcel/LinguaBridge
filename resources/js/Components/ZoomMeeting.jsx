@@ -1,15 +1,19 @@
-import {useState} from 'react';
+import {useEffect} from 'react';
 import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded"
 import axios from 'axios';
 
 axios.defaults.withCredentials = true; // Inclut tous les cookies dans la requête
 
-function ZoomMeeting({meetingNumber, userName}) {
+const sdkKey = import.meta.env.ZOOM_CLIENT_ID;
 
-    const [buttonClicked, setButtonClicked] = useState(false);
+function ZoomMeeting({meetingNumber, userName, ...props}) {
 
     // On initialise le Client SDK
     const client = ZoomMtgEmbedded.createClient();
+
+    useEffect(() => {
+        launchMeeting();
+    }, []);
 
     const launchMeeting = () => {
 
@@ -37,19 +41,17 @@ function ZoomMeeting({meetingNumber, userName}) {
                     patchJsMedia: true,
                 }).then(() => {
                     client.join({
-                        sdkKey: import.meta.env.ZOOM_CLIENT_ID,
+                        sdkKey: sdkKey,
                         signature: data.jwt,
                         meetingNumber: meetingNumber,
                         password: data.meeting_password,
                         userName: userName,
                     }).then(() => {
-                        setButtonClicked(true);
                         console.log('Meeting joined')
                     }).catch((error) => {
                         console.error(error)
                     })
                 }).catch((error) => {
-                    setButtonClicked(false);
                     console.error(error)
                 })
             }
@@ -57,16 +59,7 @@ function ZoomMeeting({meetingNumber, userName}) {
     }
 
     return (
-        <div id="meetingSDKElement">
-            {!buttonClicked &&
-                <button
-                    type="button"
-                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={launchMeeting}
-                >
-                    Launch Meeting
-                </button>}
-        </div>
+        <div id="meetingSDKElement" {...props}></div>
     );
 
 }

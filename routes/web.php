@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/my-requests', [SessionController::class, 'myRequests'])->name('sessions.my-requests');
         Route::get('/new-session', [SessionController::class, 'create'])->name('sessions.create');
         Route::post('/new-session', [SessionController::class, 'store'])->name('sessions.store');
+        Route::get('/my-scheduled', [SessionController::class, 'myScheduled'])->name('sessions.my-scheduled');
 
         Route::prefix('{session}')->group(function () {
             Route::get('/', [SessionController::class, 'show'])->name('sessions.show');
