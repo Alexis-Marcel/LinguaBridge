@@ -193,9 +193,9 @@ const company = [
 ];
 
 const profile = [
-    { name: "Your Profile", method:"get", href:"profile" },
-    { name: "Settings", method:"get", href:"settings" },
-    { name: "Sign out", method:"post", href:"logout" },
+    { name: "Your Profile", method:"get", href:route("profile.edit") },
+    { name: "Settings", method:"get", href:route("profile.edit") },
+    { name: "Sign out", method:"post", href:route("profile.destroy") },
 ];
 
 function classNames(...classes) {
