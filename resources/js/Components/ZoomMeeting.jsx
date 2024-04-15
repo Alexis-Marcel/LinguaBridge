@@ -39,6 +39,24 @@ function ZoomMeeting({meetingNumber, userName, ...props}) {
                     zoomAppRoot: document.getElementById('meetingSDKElement'),
                     language: 'en-US',
                     patchJsMedia: true,
+                    customize: {
+                        video: {
+                            popper: {
+                                disableDraggable: true
+                            },
+                            isResizable: true,
+                            viewSizes: {
+                                default: {
+                                    width: '1212',
+                                    height: '650'
+                                },
+                                ribbon: {
+                                    width: '300',
+                                    height: '700'
+                                }
+                            }
+                        }
+                    }
                 }).then(() => {
                     client.join({
                         sdkKey: sdkKey,
