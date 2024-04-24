@@ -472,11 +472,19 @@ class SessionController extends Controller
 
         $query = Session::query();
 
-        $query->whereHas('requests', function ($query) {
-            $query->where('user_id', auth()->id())->where('status', 1);
-        })->where('status', 1);
+        $query->where('status', 1);
+
+        $query->where(function ($query) {
+            $query->whereHas('requests', function ($query) {
+                $query->where('user_id', auth()->id())->where('status', 1);
+            })
+                ->orWhere(function ($query) {
+                    $query->where('host_id', auth()->id());
+                });
+        });
 
         $query->with('language1:code,name', 'language2:code,name');
+
 
         $query->when($request->input('session_title'), function ($query, $searchTerm) {
             $query->where('session_title', 'like', "%{$searchTerm}%");

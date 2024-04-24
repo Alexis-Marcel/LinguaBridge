@@ -201,7 +201,7 @@ const company = [
 const profile = [
     { name: "Your Profile", method:"get", href:route("profile.edit") },
     { name: "Settings", method:"get", href:route("profile.edit") },
-    { name: "Sign out", method:"delete", href:route("profile.destroy") },
+    { name: "Sign out", method:"post", href:route("logout") },
 ];
 
 function classNames(...classes) {
@@ -324,7 +324,7 @@ export default function Authenticated({header, children}) {
                             </Link>
 
                             <Link
-                                href={route("sessions.index")}
+                                href={route("sessions.my-scheduled")}
                                 className="text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap"
                             >
                                 Planned Sessions
