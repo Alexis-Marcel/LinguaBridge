@@ -516,4 +516,55 @@ class SessionController extends Controller
         ]);
     }
 
+    /**
+     * Function to get the list of all the sessions where the user participated
+     */
+    public function myHistory(Request $request): Response
+    {
+        $languages = Language::all();
+
+        $query = Session::query();
+
+        $query->where('status', 2);
+
+        $query->where(function ($query) {
+            $query->whereHas('requests', function ($query) {
+                $query->where('user_id', auth()->id())->where('status', 1);
+            })
+                ->orWhere(function ($query) {
+                    $query->where('host_id', auth()->id());
+                });
+        });
+
+        $query->with('language1:code,name', 'language2:code,name');
+
+        $query->when($request->input('session_title'), function ($query, $searchTerm) {
+            $query->where('session_title', 'like', "%{$searchTerm}%");
+        });
+
+        $query->when($request->input('language1'), function ($query, $language) {
+            $query->where('language1_id', $language);
+        });
+
+        $query->when($request->input('language2'), function ($query, $language) {
+            $query->where('language2_id', $language);
+        });
+
+        $query->when($request->input('level'), function ($query, $level) {
+            $query->whereIn('level', $level);
+        });
+
+        $sessions = $query->paginate(10);
+
+        foreach ($sessions as $session) {
+            if (Storage::exists($session->cover_photo)) {
+                $session->cover_photo = Storage::url($session->cover_photo);
+            }
+        }
+
+        return Inertia::render('HistorySession', [
+            'sessions' => $sessions,
+            'languages' => $languages,
+        ]);
+    }
 }

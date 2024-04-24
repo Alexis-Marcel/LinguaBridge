@@ -176,7 +176,7 @@ const products = [
     {
         name: "Session History",
         description: "Your past sessions",
-        href: "sessions.index",
+        href: "sessions.my-history",
         icon: SquaresPlusIcon,
     }
 ];
