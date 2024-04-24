@@ -9,8 +9,6 @@ export default function MeetingView({auth, session}) {
     return (
         <AuthenticatedLayout user={auth.user} header="Session Details">
             <Head title={session.session_title}/>
-            <meta http-equiv="origin-trial"
-                  content="AiPME2z8Xn/4yQvPcQO51g6IKDVTr5kLUhDWsp5qVnsjYW1YffxLyiSzYRQMw0kRo/8+vtuXoqD70yYn5FCACwEAAABeeyJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjgwIiwiZmVhdHVyZSI6IlVucmVzdHJpY3RlZFNoYXJlZEFycmF5QnVmZmVyIiwiZXhwaXJ5IjoxNzE5MzU5OTk5fQ=="/>
             <div className="bg-white p-4 rounded-md shadow-md">
                 <h1 className="text-2xl font-bold text-gray-800">Session Details</h1>
                 <div className="mt-4">
