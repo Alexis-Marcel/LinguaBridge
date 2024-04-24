@@ -174,21 +174,15 @@ const products = [
         icon: FingerPrintIcon,
     },
     {
-        name: "Scheduled Sessions",
-        description: "View sessions you have scheduled",
-        href: "sessions.my-scheduled",
-        icon: ArrowPathIcon,
-    },
-    {
         name: "Session History",
         description: "Your past sessions",
         href: "sessions.index",
         icon: SquaresPlusIcon,
-    },
+    }
 ];
 const callsToAction = [
-    { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-    { name: "Contact sales", href: "#", icon: PhoneIcon },
+    //{ name: "Watch demo", href: "#", icon: PlayCircleIcon },
+    //{ name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 const company = [
     { name: "About us", href: "#" },

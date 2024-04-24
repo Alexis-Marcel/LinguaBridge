@@ -17,10 +17,10 @@ export default function ScheduledSession({ auth, sessions, languages }) {
 
         <AuthenticatedLayout
             user={auth.user}
-            header="Scheduled Sessions"
+            header="Planned Sessions"
         >
 
-            <Head title="Scheduled Sessions" />
+            <Head title="Planned Sessions" />
 
             <FilterPanel languages={languages} routename={'sessions.my-scheduled'}/>
             <TableWithPaginate sessions={sessions} formatData={formatData} onRowClick={(session) => router.get(route('sessions.meeting', session.id))}/>
