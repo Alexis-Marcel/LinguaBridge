@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('session_title');
-            $table->string('meeting_id');
-            $table->string('meeting_password');
+            $table->string('meeting_id')->default(uniqid());
+            $table->string('meeting_password')->default(uniqid());
             $table->string('language1_id', 2);
             $table->string('language2_id', 2);
             $table->foreign('language1_id')->references('code')->on('languages');
