@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Head, Link} from '@inertiajs/react';
 
 export default function Dashboard({ auth }) {
     return (
@@ -7,41 +7,22 @@ export default function Dashboard({ auth }) {
             user={auth.user}
             header="Dashboard"
         >
-            <Head title="Dashboard" />
+            <Head title="Dashboard"/>
 
 
-            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h1>Page title</h1>
-            {/* Main 3 column grid */}
-            <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
-              {/* Left column */}
-              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-                <section aria-labelledby="section-1-title">
-                  <h2 id="section-1-title">
-                    {auth.user.name}
-                  </h2>
-                    <a href={route('zoom.auth')}>Se connecter avec Zoom</a>
-                    <div className=" rounded-lg bg-white shadow">
-                    <div className="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id eros libero. Praesent porttitor ante nec ultricies gravida. Etiam eget tortor sit amet ex finibus lobortis. Integer eget scelerisque nulla. Nulla eu tortor nibh. Vestibulum pulvinar condimentum ipsum. Nunc condimentum enim mi. Nullam sit amet orci vel velit aliquam tempor ac eu urna. Maecenas eu aliquam augue. Aliquam erat volutpat. Morbi quis tincidunt ligula. Aenean varius rutrum lacus, vel vehicula tortor laoreet sit amet.
+                <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Welcome, {auth.user.name}</h1>
+                        <p className="mt-6 text-lg leading-8 text-gray-600">You are logged in! You can now start creating your own sessions and invite your friends to join.</p>
+                        <div className="mt-10 flex items-center justify-center gap-x-6">
+                            <Link href={route('sessions.index')}
+                               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Discover sessions</Link>
 
-Donec bibendum diam id sagittis ultricies. Fusce vitae interdum velit. Etiam interdum id velit vulputate tincidunt. Aenean vehicula velit vitae tortor sagittis tempor. Ut tincidunt sem vitae nulla pretium condimentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi scelerisque nunc at dolor sagittis luctus sed eu lacus. Donec quis mauris at augue fringilla volutpat a et dolor. Donec finibus orci nec lectus rhoncus suscipit. Maecenas auctor massa sed nunc porttitor, sed tempus diam ornare. Etiam id dui enim. Morbi finibus, diam eu fringilla volutpat, justo leo sollicitudin sapien, vitae varius sem eros non ligula.</div>
-                  </div>
-                </section>
-              </div>
+                        </div>
+                    </div>
 
-              {/* Right column */}
-              <div className="grid grid-cols-1 gap-4">
-                <section aria-labelledby="section-2-title">
-                  <h2 id="section-2-title">
-                    Section title
-                  </h2>
-                  <div className=" rounded-lg bg-white shadow">
-                    <div className="p-6">Your content</div>
-                  </div>
-                </section>
-              </div>
+
             </div>
-          </div>
 
         </AuthenticatedLayout>
     );
