@@ -43,8 +43,7 @@ class SessionRequestController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-
-        return redirect()->route('dashboard')->with('notification', [
+        return redirect()->route('sessions.my-requests')->with('notification', [
             'type' => 'success',
             'message' => 'Request sent',
         ]);
@@ -67,7 +66,7 @@ class SessionRequestController extends Controller
             abort(403);
         }
 
-        if ($session->requests()->where('status', 1)->count() >= $session->max_attendees && $request->status == 1) {
+        if ($session->requests()->where('status', 1)->count() >= $session->max_attendees-1 && $request->status == 1) {
 
             return back()->with('notification', [
                 'type' => 'error',

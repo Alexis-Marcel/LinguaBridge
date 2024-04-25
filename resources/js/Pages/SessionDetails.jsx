@@ -25,7 +25,7 @@ export default function SessionDetails({auth, session}) {
                 </div>
                 {/* cover image */}
                 <div className="flex-1 flex justify-center items-center">
-                    <img className="aspect-[3/2] rounded-2xl w-1/2" src={session.cover_photo} alt=""/>
+                    <img className="max-h-fit rounded-2xl w-1/2" src={session.cover_photo} alt=""/>
                 </div>
                 {session.host_id === auth.user.id && (
                 <div className="ml-auto flex flex-col justify-center gap-4">
@@ -109,7 +109,7 @@ export default function SessionDetails({auth, session}) {
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-900">Participants</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{session.participants}/{session.max_attendees}</dd>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{session.participants}/{session.max_attendees-1}</dd>
                     </div>
 
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

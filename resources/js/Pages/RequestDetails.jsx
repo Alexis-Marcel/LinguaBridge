@@ -7,7 +7,7 @@ import {CheckIcon, XMarkIcon} from "@heroicons/react/20/solid";
 export default function RequestDetails({auth, session, requestsAccepted, requestsPending, requestsRejected}) {
 
     const stats = [
-        {name: 'Participants', value: `${requestsAccepted.length}/${session.max_attendees}`},
+        {name: 'Participants', value: `${requestsAccepted.length}/${session.max_attendees-1}`},
         {name: 'Accepted', value: requestsAccepted.length},
         {name: 'Pending', value: requestsPending.length},
         {name: 'Rejected', value: requestsRejected.length},

@@ -120,7 +120,7 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
             {/*
           This example requires updating your template:
-  
+
           ```
           <html class="h-full bg-gray-50">
           <body class="h-full">
@@ -292,7 +292,7 @@ export default function Login({ status, canResetPassword }) {
                         href={route("register")}
                         className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                     >
-                        Sign in here
+                        Sign up here
                     </Link>
                 </p>
             </div>
