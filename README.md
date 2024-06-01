@@ -3,6 +3,7 @@
 [![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Laravel Sail](https://img.shields.io/badge/Laravel%20Sail-0052CC?style=for-the-badge&logo=docker&logoColor=white)](https://laravel.com/docs/8.x/sail)
+[![Tailwind UI](https://img.shields.io/badge/Tailwind%20UI-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindui.com/)
 [![Zoom](https://img.shields.io/badge/Zoom-00AEEF?style=for-the-badge&logo=zoom&logoColor=white)](https://zoom.us/)
 
 LiguaBridge est une application web élégante et moderne qui permet aux utilisateurs de créer des "Sessions" privées avec un système d'invitations pour discuter de sujets particuliers dans deux langues différentes. L'objectif est de favoriser les échanges culturels, les discussions sur des sujets spécifiques et l'apprentissage de nouvelles langues. L'application intègre également un système de réunions personnalisées avec le SDK de Zoom.
