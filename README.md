@@ -1,66 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LiguaBridge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Laravel Sail](https://img.shields.io/badge/Laravel%20Sail-0052CC?style=for-the-badge&logo=docker&logoColor=white)](https://laravel.com/docs/8.x/sail)
+[![Zoom](https://img.shields.io/badge/Zoom-00AEEF?style=for-the-badge&logo=zoom&logoColor=white)](https://zoom.us/)
 
-## About Laravel
+LiguaBridge est une application web élégante et moderne qui permet aux utilisateurs de créer des "Sessions" privées avec un système d'invitations pour discuter de sujets particuliers dans deux langues différentes. L'objectif est de favoriser les échanges culturels, les discussions sur des sujets spécifiques et l'apprentissage de nouvelles langues. L'application intègre également un système de réunions personnalisées avec le SDK de Zoom.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fonctionnalités
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Création de sessions privées avec un système d'invitations
+- Discussions de sujets particuliers dans deux langues différentes
+- Échanges culturels et apprentissage de nouvelles langues
+- Système de réunions personnalisées avec le SDK de Zoom
+- Interface utilisateur élégante et moderne
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technologies utilisées
 
-## Learning Laravel
+- Laravel : un framework PHP puissant et élégant pour le développement web.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- React JS : une bibliothèque JavaScript pour la création d'interfaces utilisateur interactives.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Laravel Sail : une configuration Docker pré-installée pour Laravel, permettant un développement local simple et efficace.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Zoom SDK : un kit de développement logiciel pour intégrer les fonctionnalités de Zoom dans des applications tierces.
 
-## Laravel Sponsors
+## Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clonez le dépôt GitHub :
+```
+git clone https://github.com/Alexis-Marcel/LinguaBridge.git
+```
+2. Accédez au répertoire du projet :
+```
+cd LiguaBridge
+```
+3. Installez les dépendances Composer pour Laravel :
+```
+composer install
+```
+4. Copiez le fichier `.env.example` et renommez-le en `.env` :
+```
+cp .env.example .env
+```
+5. Générez une clé d'application pour Laravel :
+```
+php artisan key:generate
+```
+6. Installez les dépendances npm pour React JS :
+```
+npm install
+```
+7. Configurez les variables d'environnement pour le SDK de Zoom dans le fichier `.env`.
+8. Lancez Laravel Sail :
+```
+./vendor/bin/sail up
+```
+9. Exécutez les migrations de la base de données :
+```
+php artisan migrate
+```
+10. Compilez les fichiers React JS :
+```
+npm run build
+```
+L'application est maintenant accessible à l'adresse suivante : `http://localhost`.
 
-### Premium Partners
+## Licence
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+LiguaBridge est un logiciel open source sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![MIT License](https://img.shields.io/github/license/Alexis-Marcel/LiguaBridge.svg)
