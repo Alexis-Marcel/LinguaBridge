@@ -72,5 +72,3 @@ L'application est maintenant accessible à l'adresse suivante : `http://localhos
 ## Licence
 
 LiguaBridge est un logiciel open source sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-![MIT License](https://img.shields.io/github/license/Alexis-Marcel/LiguaBridge.svg)
