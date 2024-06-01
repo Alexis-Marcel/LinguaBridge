@@ -26,6 +26,8 @@ LiguaBridge est une application web élégante et moderne qui permet aux utilisa
 
 - Zoom SDK : un kit de développement logiciel pour intégrer les fonctionnalités de Zoom dans des applications tierces.
 
+- Tailwind UI : une collection de composants d'interface utilisateur réutilisables, basée sur le framework de CSS utility Tailwind CSS.
+
 ## Installation
 
 1. Clonez le dépôt GitHub :
